@@ -5,15 +5,14 @@
     // On scan page
     if ($("#scan-result").length) {
       var current_post;
+      var types = ["post", "page"];
       var posts;
-      var pages;
 
-      var speed = 500;
+      var speed = 1000;
       var a = 0;
 
-      // Kick off the process
+      var checkPostI;
       var progressI = setInterval(showProgress, speed);
-      var i = setInterval(getPosts, speed);
 
       function showProgress() {
         // Progress animation
@@ -27,29 +26,29 @@
         }
       }
 
-      function getPosts() {
-        // Check if we gathered the posts
-        if (posts != undefined) {
-          clearInterval(i);
-          i = setInterval(checkPosts, speed);
-          return;
-        }
-      }
-
+      // Get the post info, including product availability
       function checkPosts() {
-        // Get the post info, including product availability
-        if (current_post == posts[0]) {
-          // Keep waiting
-          return;
-        }
         if (posts.length == 0) {
-          // Done
-          clearInterval(i);
+          // No more posts, are there any other post types?
+          types.shift();
+          if (types.length > 0) {
+            clearInterval(checkPostI);
+            getPosts(types[0]);
+            return;
+          }
+          // Completely done
+          clearInterval(checkPostI);
           $("#scan-result").append(
             '<p style="color:green;"><span class="dashicons dashicons-yes"></span> Process completed!</p>'
           );
           return;
         }
+
+        if (current_post == posts[0]) {
+          // Keep waiting
+          return;
+        }
+
         current_post = posts[0];
         var data = {
           action: "get_post_info",
@@ -99,15 +98,23 @@
         });
       }
 
-      // Get the post ids
-      var data = {
-        action: "get_post_ids",
-        content_type: "post",
-      };
-      $.post(ajaxurl, data, function (response) {
-        posts = $.parseJSON(response);
-        $("#scan-result").append("<p>Found " + posts.length + " posts.</p>");
-      });
+      // Get all post ids
+      function getPosts(type) {
+        var data = {
+          action: "get_post_ids",
+          content_type: type,
+        };
+        $.post(ajaxurl, data, function (response) {
+          posts = $.parseJSON(response);
+          $("#scan-result").append(
+            "<p>Found " + posts.length + " published " + type + "s.</p>"
+          );
+          checkPostI = setInterval(checkPosts, speed);
+        });
+      }
+
+      // Kick off the process
+      getPosts(types[0]);
     }
   });
 })(jQuery);
