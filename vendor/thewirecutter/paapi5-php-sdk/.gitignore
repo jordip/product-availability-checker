@@ -1,0 +1,9 @@
+# Dependencies
+/vendor
+/composer.lock
+
+# Code Editors
+.vscode/
+
+# OS Specific Files
+.DS_Store

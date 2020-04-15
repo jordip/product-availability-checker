@@ -1,0 +1,5 @@
+{
+    "require": {
+        "thewirecutter/paapi5-php-sdk": "^1.0"
+    }
+}
