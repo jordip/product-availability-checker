@@ -19,6 +19,8 @@ This simple plugin will scan your website for links pointing to Amazon marketpla
 
 _It's time to get rid of junk links and increase revenue._
 
+Cover photo by [Brooke Lark](https://unsplash.com/@brookelark?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)
+
 == Installation ==
 
 1. Upload `pac.php` to the `/wp-content/plugins/` directory
@@ -36,6 +38,10 @@ _It's time to get rid of junk links and increase revenue._
 = Does the plugin work with shortlinks or cloaked links? =
 
 On the current version the plugin only works with links containing the amazon domain and the product ASIN . If you don't know how to find a product ASIN please check the following link: https://www.oreilly.com/library/view/amazon-hacks/0596005423/ch01s03.html
+
+= The scanner is showing products out of stock but when I follow the link to Amazon I see they are available. What's going on? =
+
+Lots of vendors redirect old out-of-stock products to a newer, or alternative, version. In order to check if the plugin reported a false positive you should compare the ASIN you're linking to, and the ASIN displayed on Amazon under the Product Details section.
 
 = How can I request a feature to be included in future versions of the plugin? =
 
