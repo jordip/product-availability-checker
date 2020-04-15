@@ -421,6 +421,9 @@ class Pac_Admin
                      * For more info refer: https://webservices.amazon.com/paapi5/documentation/use-cases/using-offer-information/items-that-do-not-have-offers.html
                      */
                     if (empty($offers) && $item->getParentASIN() != null) {
+                        // Wait 1 second to avoid throttle
+                        sleep(1);
+
                         $parentItem = $this->paapi->api_get_items([$item->getParentASIN()])[0];
                         if (
                             $parentItem != null
