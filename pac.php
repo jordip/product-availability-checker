@@ -14,7 +14,6 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Product Availability Checker
- * Plugin URI:        https://jordiplana.com
  * Description:       Check your site for Amazon Affiliate's links to products that are out of stock. Stop sending your visitors to products that are no longer available!
  * Version:           1.0.0
  * Author:            Jordi Plana
