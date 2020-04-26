@@ -56,7 +56,7 @@ Feedback is always welcome, please start a thread in the Wordpress.org plugin su
 
 = 1.1.0 =
 
-- Add compatibility with Amazon Shortlinks (amzn.to / amazn.com).
+- Add compatibility with Amazon Shortlinks (amzn.to / amzn.com).
 - Add Start/Stop scanning button.
 - Scanner styling and UX.
 - Last scan timestamp.
