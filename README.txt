@@ -35,9 +35,9 @@ Cover photo by [Brooke Lark](https://unsplash.com/@brookelark?utm_source=unsplas
 1. Register as an Amazon affiliate https://affiliate-program.amazon.com
 1. Create Amazon Product Advertising API credentials https://affiliate-program.amazon.com/gp/flex/advertising/api/sign-in.html
 
-= Does the plugin work with shortlinks or cloaked links? =
+= Does the plugin work with cloaked links? =
 
-On the current version the plugin only works with links containing the amazon domain and the product ASIN . If you don't know how to find a product ASIN please check the following link: https://www.oreilly.com/library/view/amazon-hacks/0596005423/ch01s03.html
+On the current version the plugin only works with links containing the amazon domains and the product ASIN . If you don't know how to find a product ASIN please check the following link: https://www.oreilly.com/library/view/amazon-hacks/0596005423/ch01s03.html
 
 = The scanner is showing products out of stock but when I follow the link to Amazon I see they are available. What's going on? =
 
