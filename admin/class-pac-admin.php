@@ -49,6 +49,13 @@ class Pac_Admin
     private $paapi;
 
     /**
+     * Helper methods
+     *
+     * @var Pac_Helper
+     */
+    private $helper;
+
+    /**
      * Initialize the class and set its properties.
      *
      * @since 1.0.0
@@ -59,7 +66,18 @@ class Pac_Admin
     {
         $this->plugin_name = $plugin_name;
         $this->version = $version;
+        $this->helper = new Pac_Helper();
         $this->paapi = new Pac_Paapi();
+    }
+
+    /**
+     * Register the filters for the admin area.
+     *
+     * @since 1.0.0
+     */
+    public function admin_add_filters()
+    {
+        add_filter('plugin_action_links_' . PAC_PLUGIN_BASE_NAME . '/pac.php', array($this, 'plugin_settings_link'));
     }
 
     /**
@@ -80,6 +98,20 @@ class Pac_Admin
     public function enqueue_scripts()
     {
         wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/pac-admin.js', array('jquery'), $this->version, false);
+    }
+
+    /**
+     * Add settings link to plugins page.
+     *
+     * @param mixed $links
+     * @return void
+     */
+    public function plugin_settings_link($links)
+    {
+        $url = get_admin_url() . 'admin.php?page=pac';
+        $settings_link = '<a href="' . $url . '">' . __('Settings', 'pac') . '</a>';
+        array_unshift($links, $settings_link);
+        return $links;
     }
 
     /**
@@ -113,7 +145,7 @@ class Pac_Admin
             __('Scan and check', 'pac'),
             'manage_options',
             $this->plugin_name . '-scan',
-            array($this, 'display_scan_page'),
+            array($this, 'display_scan_page')
         );
     }
 
@@ -137,6 +169,8 @@ class Pac_Admin
     {
         // Do we have valid API settings?
         $api_status = $this->verify_api_credentials();
+
+        // @TODO: Add error message
         // if (!$api_status) {
         //     $notices = [
         //         [
@@ -145,6 +179,13 @@ class Pac_Admin
         //         ]
         //     ];
         // }
+
+        // Get timestamp of last scan
+        $last_scan = get_option('pac_last_scan');
+        if (!$last_scan) {
+            $last_scan = __('N/A', 'pac');
+        }
+
         $page = $this->plugin_name . '-scan';
         include_once 'partials/pac-scan-display.php';
     }
@@ -341,6 +382,18 @@ class Pac_Admin
 
         $content = [];
         if (in_array($content_type, $allowed_content_types)) {
+            // @TODO: Make this statement more robust
+            if ($content_type == 'post') {
+                // Save timestamp of last scan
+                $last_scan = get_option('pac_last_scan');
+                if (!$last_scan) {
+                    $last_scan = date('Y-m-d H:i:s');
+                    add_option('pac_last_scan', $last_scan);
+                } else {
+                    update_option('pac_last_scan', date('Y-m-d H:i:s'));
+                }
+            }
+
             $args = array(
                 'post_type'   => $content_type,
                 'post_status'    => 'publish',
@@ -376,8 +429,16 @@ class Pac_Admin
         $post = get_post($id);
 
         if (!empty($post)) {
+            // Get post content and look for links
             $post_content = apply_filters('the_content', $post->post_content);
-            preg_match_all('/<a.*href=".*amazon\..*?\/([A-Z0-9]{10})/', $post_content, $matches, PREG_SET_ORDER);
+
+            // Regular links.
+            $amazon_matches = $this->helper->get_amazon_asin($post_content);
+            // Shortlinks.
+            $shortlink_matches = $this->helper->get_amazon_asin($post_content, true);
+
+            $matches = array_merge($amazon_matches, $shortlink_matches);
+
             if (!empty($matches)) {
                 // ASIN found
                 $asin_collection = [];
@@ -386,10 +447,30 @@ class Pac_Admin
                         $asin_collection[] = $match[1];
                     }
                 }
+
                 // getItem ASIN
                 $this->paapi->set_amazon_api_config_instance();
-                $items = $this->paapi->api_get_items($asin_collection);
-                foreach ($items as $item) {
+
+                // Current getItems limit is 10
+                // @docs: https://webservices.amazon.com/paapi5/documentation/get-items.html
+                $item_collection = [];
+                if (count($asin_collection) > 10) {
+                    foreach (array_chunk($asin_collection, 10) as $asin_coll) {
+                        $items = $this->paapi->api_get_items($asin_coll);
+                        if ($items) {
+                            $item_collection = array_merge($item_collection, $items);
+                        }
+                    }
+                } else {
+                    $item_collection = $this->paapi->api_get_items($asin_collection);
+                }
+
+                if (!empty($asin_collection) && empty($item_collection)) {
+                    // Something went wrong retrieving the items. Most of the times is a malformed ASIN.
+                    // @TODO: Return an error.
+                }
+
+                foreach ($item_collection as $item) {
                     $asin = '';
                     $title = '';
                     $url = '';
@@ -457,6 +538,10 @@ class Pac_Admin
                         ];
                     }
                 }
+            }
+            // Save the timestamp of the scan
+            if (!add_post_meta($post->ID, 'pac_last_scan', date('Y-m-d H:i:s'), true)) {
+                update_post_meta($post->ID, 'pac_last_scan', date('Y-m-d H:i:s'));
             }
         }
 

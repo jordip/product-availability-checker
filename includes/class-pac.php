@@ -66,6 +66,7 @@ class Pac
 
         $this->load_dependencies();
         $this->set_locale();
+        $this->define_admin_filters();
         $this->define_admin_hooks();
         $this->define_public_hooks();
     }
@@ -141,6 +142,20 @@ class Pac
         $plugin_i18n = new Pac_i18n();
 
         $this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
+    }
+
+    /**
+     * Register all of the filters related to the admin area functionality
+     * of the plugin.
+     *
+     * @since  1.1.0
+     * @access private
+     */
+    private function define_admin_filters()
+    {
+        $plugin_admin = new Pac_Admin($this->get_plugin_name(), $this->get_version());
+
+        $this->loader->add_filter('after_setup_theme', $plugin_admin, 'admin_add_filters');
     }
 
     /**

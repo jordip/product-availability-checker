@@ -1,11 +1,11 @@
 === Product Availability Checker ===
 Contributors: jordiplana
 Donate link: https://jordiplana.com/donate.html
-Tags: amazon, azon, affiliates, api, product, stock, availability, checker, scanner, validator
+Tags: amazon, azon, affiliates, api, links, product, stock, availability, checker, scanner, validator
 Requires at least: 3.0.1
 Requires PHP: 5.5
 Tested up to: 5.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,14 @@ Feedback is always welcome, please start a thread in the Wordpress.org plugin su
 2. Scan result example
 
 == Changelog ==
+
+= 1.1.0 =
+
+- Add compatibility with Amazon Shortlinks (amzn.to / amazn.com).
+- Add Start/Stop scanning button.
+- Scanner styling and UX.
+- Last scan timestamp.
+- Add settings shortcut on plugins page.
 
 = 1.0.0 =
 

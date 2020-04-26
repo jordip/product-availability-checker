@@ -29,11 +29,20 @@
 
             <?php if ($api_status) : ?>
                 <p>
-                    <?php _e('Scanning all your posts and pages for links containing Amazon links.', 'pac'); ?><br />
-                    <small><?php _e("Please note that this scanner doesn't pick up shortlinks, or cloaked links. Only links with the following format will be checked: http(s)://www.amazon.(tld)/*", 'pac'); ?></small>
+                    <?php _e('Scan all your posts and pages for links containing Amazon links, then check for product availability.', 'pac'); ?>
                 </p>
-                <div id="scan-result">
-                    <h3>Scanning <span id="dot-progress"></span></h3>
+                <p>
+                    <span style="color:red">[x]</span><?php _e('', 'pac'); ?> This mark indicates products that are no longer available and need fixing.
+                </p>
+                <p>
+                    <small><?php _e("Please note that this scanner doesn't support cloaked links.", 'pac'); ?></small>
+                </p>
+                <div>
+                    <p>[<?php _e('Last scan: ', 'pac'); ?> <?php echo $last_scan; ?>]</p>
+                    <input type="button" name="scan-start-stop" id="scan-start-stop" class="button button-primary start" value="<?php _e('Start scanning', 'pac'); ?>">
+                    <div id="scan-result">
+                        <h3><span id="progress-loader" class="loader loader16"></span> <span id="scan-progress">Scanning</span></h3>
+                    </div>
                 </div>
             <?php else : ?>
                 <p><span style="color: red;"><span class="dashicons dashicons-no"></span> <?php _e('Check your Amazon Product Advertising API Settings and try again.', 'pac'); ?></span></span> <a href="admin.php?page=pac">Fix</a>.</p>

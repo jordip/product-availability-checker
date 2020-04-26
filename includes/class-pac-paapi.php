@@ -173,7 +173,6 @@ class Pac_Paapi
             if ($getItemsResponse->getItemsResult() != null) {
                 return $getItemsResponse->getItemsResult()->getItems();
             }
-            return true;
         } catch (ApiException $exception) {
         } catch (Exception $exception) {
         }
@@ -244,54 +243,54 @@ class Pac_Paapi
     {
         // Documentation: https://webservices.amazon.com/paapi5/documentation/common-request-parameters.html#host-and-region
         switch ($country) {
-        case 'com.au':
-            $region = 'us-west-2';
-            break;
-        case 'com.br':
-            $region = 'us-east-1';
-            break;
-        case 'ca':
-            $region = 'us-east-1';
-            break;
-        case 'fr':
-            $region = 'eu-west-1';
-            break;
-        case 'de':
-            $region = 'eu-west-1';
-            break;
-        case 'in':
-            $region = 'eu-west-1';
-            break;
-        case 'it':
-            $region = 'eu-west-1';
-            break;
-        case 'co.jp':
-            $region = 'us-west-2';
-            break;
-        case 'com.mx':
-            $region = 'us-east-1';
-            break;
-        case 'nl':
-            $region = 'eu-west-1';
-            break;
-        case 'sg':
-            $region = 'us-west-2';
-            break;
-        case 'es':
-            $region = 'eu-west-1';
-            break;
-        case 'com.tr':
-            $region = 'eu-west-1';
-            break;
-        case 'ae':
-            $region = 'eu-west-1';
-            break;
-        case 'co.uk':
-            $region = 'eu-west-1';
-            break;
-        default:
-            $region = 'us-east-1';
-            break;
+            case 'com.au':
+                $region = 'us-west-2';
+                break;
+            case 'com.br':
+                $region = 'us-east-1';
+                break;
+            case 'ca':
+                $region = 'us-east-1';
+                break;
+            case 'fr':
+                $region = 'eu-west-1';
+                break;
+            case 'de':
+                $region = 'eu-west-1';
+                break;
+            case 'in':
+                $region = 'eu-west-1';
+                break;
+            case 'it':
+                $region = 'eu-west-1';
+                break;
+            case 'co.jp':
+                $region = 'us-west-2';
+                break;
+            case 'com.mx':
+                $region = 'us-east-1';
+                break;
+            case 'nl':
+                $region = 'eu-west-1';
+                break;
+            case 'sg':
+                $region = 'us-west-2';
+                break;
+            case 'es':
+                $region = 'eu-west-1';
+                break;
+            case 'com.tr':
+                $region = 'eu-west-1';
+                break;
+            case 'ae':
+                $region = 'eu-west-1';
+                break;
+            case 'co.uk':
+                $region = 'eu-west-1';
+                break;
+            default:
+                $region = 'us-east-1';
+                break;
         }
         return $region;
     }

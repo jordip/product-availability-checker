@@ -2,32 +2,41 @@
   "use strict";
 
   $(document).ready(function ($) {
-    // On scan page
-    if ($("#scan-result").length) {
+    var checkPostI;
+    var progressI;
+    var posts;
+
+    function scan(action) {
       var current_post;
       var types = ["post", "page"];
-      var posts;
 
       var speed = 1000;
       var a = 0;
 
-      var checkPostI;
-      var progressI = setInterval(showProgress, speed);
+      progressI = setInterval(showProgress, speed);
 
       function showProgress() {
-        // Progress animation
-        a++;
-        var dot = ".";
-        $("#dot-progress").text(dot.repeat((a % 3) + 1));
-
         // Check if we are done
         if (posts != undefined && posts.length == 0) {
+          $("#progress-loader").hide();
+          $("#scan-progress").html(
+            '<span class="dashicons dashicons-yes"></span>  Scan finished'
+          );
           clearInterval(progressI);
         }
       }
 
       // Get the post info, including product availability
       function checkPosts() {
+        // The process is on hold
+        if ($("#scan-start-stop").hasClass("start")) {
+          clearInterval(checkPostI);
+          $("#progress-loader").hide();
+          $("#scan-progress").html("Scan manually stopped");
+          clearInterval(progressI);
+          return;
+        }
+
         if (posts.length == 0) {
           // No more posts, are there any other post types?
           types.shift();
@@ -55,29 +64,40 @@
           id: current_post.id,
         };
         $("#scan-result").append(
-          "<p><h4>" +
+          '<div id="result-post' +
+            current_post.id +
+            '" class="card full-width"><h4 id="title-post' +
+            current_post.id +
+            '">' +
             current_post.title +
             ' (<a href="' +
             current_post.permalink +
             '" target="_blank">View</a> | <a href="post.php?post=' +
             current_post.id +
-            '&action=edit">Edit</a>)</h4></p>'
+            '&action=edit">Edit</a>)</h4></div>'
+        );
+        // Add loader to indicate progress
+        $("#title-post" + current_post.id).append(
+          '<span id="loader-post' +
+            current_post.id +
+            '" class="loader loader10"></span>'
         );
         $.post(ajaxurl, data, function (response) {
           var info = $.parseJSON(response);
           posts.shift();
-          $("#scan-result").append(
-            '<ul id="' + current_post.id + '-products"></ul>'
+          $("#loader-post" + current_post.id).hide();
+          $("#result-post" + current_post.id).append(
+            '<ul id="products-' + current_post.id + '"></ul>'
           );
           if (info == null || info.length == 0) {
-            $("ul#" + current_post.id + "-products").append(
+            $("ul#products-" + current_post.id).append(
               "<li>No Amazon links found.</li>"
             );
           } else {
             // Iterate product info and show out of stock
             for (var i = 0; i < info.length; i++) {
               if (info[i].offers == undefined || info[i].offers == "") {
-                $("ul#" + current_post.id + "-products").append(
+                $("ul#products-" + current_post.id).append(
                   '<li><span style="color:red">[x]</span> ' +
                     info[i].asin +
                     " - " +
@@ -91,8 +111,8 @@
               }
             }
             // Wrap
-            $("ul#" + current_post.id + "-products").append(
-              "<li>Checked " + info.length + " products.</li>"
+            $("#result-post" + current_post.id).append(
+              "<p>Checked " + info.length + " products.</p>"
             );
           }
         });
@@ -113,8 +133,31 @@
         });
       }
 
-      // Kick off the process
-      getPosts(types[0]);
+      if (posts == undefined) {
+        // Kick off the process
+        console.log("start");
+        getPosts(types[0]);
+      } else {
+        // Resume the process
+        console.log("resume");
+        checkPostI = setInterval(checkPosts, speed);
+      }
     }
+
+    $("#scan-start-stop").click(function (e) {
+      if ($(this).hasClass("start")) {
+        // Start / Resume scanning
+        $(this).removeClass("start").addClass("stop");
+        $(this).val("Stop scanning");
+        $("#scan-progress").html("Scanning");
+        $("#progress-loader").show();
+        $("#scan-result").show();
+        scan();
+      } else {
+        // Stop scanning
+        $(this).removeClass("stop").addClass("start");
+        $(this).val("Resume scanning");
+      }
+    });
   });
 })(jQuery);
