@@ -48,12 +48,11 @@ class Pac_Public
      * @param string $plugin_name The name of the plugin.
      * @param string $version     The version of this plugin.
      */
-    public function __construct( $plugin_name, $version )
+    public function __construct($plugin_name, $version)
     {
 
         $this->plugin_name = $plugin_name;
         $this->version = $version;
-
     }
 
     /**
@@ -77,7 +76,6 @@ class Pac_Public
          */
 
         wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/pac-public.css', array(), $this->version, 'all');
-
     }
 
     /**
@@ -101,7 +99,5 @@ class Pac_Public
          */
 
         wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/pac-public.js', array( 'jquery' ), $this->version, false);
-
     }
-
 }

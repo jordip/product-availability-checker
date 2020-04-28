@@ -314,48 +314,49 @@ class Pac_Admin
                         'label' => __('Connected', 'pac')
                     ];
                 }
-?>
+                ?>
                 <fieldset>
                     <label>
                         <span style="color: <?php echo $status['color']; ?>;"><span class="dashicons dashicons-<?php echo $status['icon']; ?>"></span> <?php echo $status['label']; ?></span>
                     </label>
                 </fieldset>
-            <?php
+                <?php
                 break;
             case 'amazon_country':
                 $country_tags = $this->paapi->get_amazon_stores();
-            ?>
+                ?>
                 <fieldset>
                     <select id="<?php echo $args['label_for'] ?>" name="<?php echo $args['label_for'] ?>">
                         <?php foreach ($country_tags as $tag => $label) { ?>
-                            <option value="<?php echo $tag; ?>" <?php if ((empty($value) && $tag == 'com') || ($value == $tag)) : ?>selected<?php
-                                                                                                                                        endif; ?>>amazon.<?php echo $tag; ?></option>
+                            <option value="<?php echo $tag; ?>" <?php if ((empty($value) && $tag == 'com') || ($value == $tag)) :
+                                ?>selected<?php
+                                           endif; ?>>amazon.<?php echo $tag; ?></option>
                         <?php } ?>
                     </select>
                     <p><small><?php echo $args['label_help'] ?></small></p>
                 </fieldset>
-            <?php
+                <?php
                 break;
             case 'password':
-            ?>
+                ?>
                 <fieldset>
                     <label>
                         <input type="password" name="<?php echo $args['label_for'] ?>" id="<?php echo $args['label_for'] ?>" value="<?php echo $value; ?>">
                         <p><small><?php echo $args['label_help'] ?></small></p>
                     </label>
                 </fieldset>
-            <?php
+                <?php
                 break;
             case 'text':
             default:
-            ?>
+                ?>
                 <fieldset>
                     <label>
                         <input type="text" name="<?php echo $args['label_for'] ?>" id="<?php echo $args['label_for'] ?>" value="<?php echo $value; ?>">
                         <p><small><?php echo $args['label_help'] ?></small></p>
                     </label>
                 </fieldset>
-<?php
+                <?php
         }
     }
 
