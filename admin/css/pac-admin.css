@@ -3,24 +3,24 @@
  * included in this file.
  */
 .full-width {
-    width: 100%;
-    max-width: 100%;
+	width: 100%;
+	max-width: 100%;
 }
 #scan-result {
-    display: none;
+	display: none;
 }
 .loader {
-    display: block;
-    float: left;
-    padding-left: 10px;
+	display: block;
+	float: left;
+	padding-left: 10px;
 }
 .loader16 {
-    background: url(../img/loader_16x16.gif) left top no-repeat;
-    width: 16px;
-    height: 16px;
+	background: url(../img/loader_16x16.gif) left top no-repeat;
+	width: 16px;
+	height: 16px;
 }
 .loader10 {
-    background: url(../img/loader_10x10.gif) left top no-repeat;
-    width: 10px;
-    height: 10px;
+	background: url(../img/loader_10x10.gif) left top no-repeat;
+	width: 10px;
+	height: 10px;
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The plugin bootstrap file
  *
@@ -25,8 +24,8 @@
  */
 
 // If this file is called directly, abort.
-if (!defined('WPINC')) {
-    die;
+if ( ! defined( 'WPINC' ) ) {
+	die;
 }
 
 /**
@@ -34,59 +33,57 @@ if (!defined('WPINC')) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('PAC_VERSION', '1.1.0');
+define( 'PAC_VERSION', '1.1.0' );
 
 /**
  * Plugin name to be used.
  */
-define('PAC_TITLE', 'Product Availability Checker');
+define( 'PAC_TITLE', 'Product Availability Checker' );
 
 /**
  * Plugin name to be used for menus.
  */
-define('PAC_TITLE_SHORT', 'Product Availability');
+define( 'PAC_TITLE_SHORT', 'Product Availability' );
 
-// Plugin Folder Path
-if (!defined('PAC_PLUGIN_DIR')) {
-    define('PAC_PLUGIN_DIR', plugin_dir_path(__FILE__));
+// Plugin Folder Path.
+if ( ! defined( 'PAC_PLUGIN_DIR' ) ) {
+	define( 'PAC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 }
 
-// Plugin Folder Path
-if (!defined('PAC_PLUGIN_BASE_NAME')) {
-    define('PAC_PLUGIN_BASE_NAME', plugin_basename(plugin_dir_path(__FILE__)));
+// Plugin Folder Path.
+if ( ! defined( 'PAC_PLUGIN_BASE_NAME' ) ) {
+	define( 'PAC_PLUGIN_BASE_NAME', plugin_basename( plugin_dir_path( __FILE__ ) ) );
 }
 
-// Plugin Base Path
+// Plugin Base Path.
 
 
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-pac-activator.php
  */
-function activate_pac()
-{
-    include_once plugin_dir_path(__FILE__) . 'includes/class-pac-activator.php';
-    Pac_Activator::activate();
+function activate_pac() {
+	include_once plugin_dir_path( __FILE__ ) . 'includes/class-pac-activator.php';
+	Pac_Activator::activate();
 }
 
 /**
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-pac-deactivator.php
  */
-function deactivate_pac()
-{
-    include_once plugin_dir_path(__FILE__) . 'includes/class-pac-deactivator.php';
-    Pac_Deactivator::deactivate();
+function deactivate_pac() {
+	include_once plugin_dir_path( __FILE__ ) . 'includes/class-pac-deactivator.php';
+	Pac_Deactivator::deactivate();
 }
 
-register_activation_hook(__FILE__, 'activate_pac');
-register_deactivation_hook(__FILE__, 'deactivate_pac');
+register_activation_hook( __FILE__, 'activate_pac' );
+register_deactivation_hook( __FILE__, 'deactivate_pac' );
 
 /**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path(__FILE__) . 'includes/class-pac.php';
+require plugin_dir_path( __FILE__ ) . 'includes/class-pac.php';
 
 /**
  * Begins execution of the plugin.
@@ -97,10 +94,8 @@ require plugin_dir_path(__FILE__) . 'includes/class-pac.php';
  *
  * @since 1.0.0
  */
-function run_pac()
-{
-
-    $plugin = new Pac();
-    $plugin->run();
+function run_pac() {
+	$plugin = new Pac();
+	$plugin->run();
 }
 run_pac();

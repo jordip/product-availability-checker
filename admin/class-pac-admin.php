@@ -10,544 +10,535 @@
  * @subpackage Pac/admin
  * @author     Jordi Plana <hello@jordiplana.com>
  */
+class Pac_Admin {
 
-class Pac_Admin
-{
 
-    /**
-     * The ID of this plugin.
-     *
-     * @since  1.0.0
-     * @access private
-     * @var    string    $plugin_name    The ID of this plugin.
-     */
-    private $plugin_name;
 
-    /**
-     * The version of this plugin.
-     *
-     * @since  1.0.0
-     * @access private
-     * @var    string    $version    The current version of this plugin.
-     */
-    private $version;
+	/**
+	 * The ID of this plugin.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    string    $plugin_name    The ID of this plugin.
+	 */
+	private $plugin_name;
 
-    /**
-     * The options name to be used in this plugin
-     *
-     * @since  1.0.0
-     * @access private
-     * @var    string         $option_name     Option name of this plugin
-     */
-    private $option_name = 'pac';
+	/**
+	 * The version of this plugin.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    string    $version    The current version of this plugin.
+	 */
+	private $version;
 
-    /**
-     * Amazon PA API v5
-     *
-     * @var Pac_Paapi
-     */
-    private $paapi;
+	/**
+	 * The options name to be used in this plugin
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    string         $option_name     Option name of this plugin
+	 */
+	private $option_name = 'pac';
 
-    /**
-     * Helper methods
-     *
-     * @var Pac_Helper
-     */
-    private $helper;
+	/**
+	 * Amazon PA API v5
+	 *
+	 * @var Pac_Paapi
+	 */
+	private $paapi;
 
-    /**
-     * Initialize the class and set its properties.
-     *
-     * @since 1.0.0
-     * @param string $plugin_name The name of this plugin.
-     * @param string $version     The version of this plugin.
-     */
-    public function __construct($plugin_name, $version)
-    {
-        $this->plugin_name = $plugin_name;
-        $this->version = $version;
-        $this->helper = new Pac_Helper();
-        $this->paapi = new Pac_Paapi();
-    }
+	/**
+	 * Helper methods
+	 *
+	 * @var Pac_Helper
+	 */
+	private $helper;
 
-    /**
-     * Register the filters for the admin area.
-     *
-     * @since 1.0.0
-     */
-    public function admin_add_filters()
-    {
-        add_filter('plugin_action_links_' . PAC_PLUGIN_BASE_NAME . '/pac.php', array($this, 'plugin_settings_link'));
-    }
+	/**
+	 * Initialize the class and set its properties.
+	 *
+	 * @since 1.0.0
+	 * @param string $plugin_name The name of this plugin.
+	 * @param string $version     The version of this plugin.
+	 */
+	public function __construct( $plugin_name, $version ) {
+		$this->plugin_name = $plugin_name;
+		$this->version     = $version;
+		$this->helper      = new Pac_Helper();
+		$this->paapi       = new Pac_Paapi();
+	}
 
-    /**
-     * Register the stylesheets for the admin area.
-     *
-     * @since 1.0.0
-     */
-    public function enqueue_styles()
-    {
-        wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/pac-admin.css', array(), $this->version, 'all');
-    }
+	/**
+	 * Register the filters for the admin area.
+	 *
+	 * @since 1.0.0
+	 */
+	public function admin_add_filters() {
+		add_filter( 'plugin_action_links_' . PAC_PLUGIN_BASE_NAME . '/pac.php', array( $this, 'plugin_settings_link' ) );
+	}
 
-    /**
-     * Register the JavaScript for the admin area.
-     *
-     * @since 1.0.0
-     */
-    public function enqueue_scripts()
-    {
-        wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/pac-admin.js', array('jquery'), $this->version, false);
-    }
+	/**
+	 * Register the stylesheets for the admin area.
+	 *
+	 * @since 1.0.0
+	 */
+	public function enqueue_styles() {
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/pac-admin.css', array(), $this->version, 'all' );
+	}
 
-    /**
-     * Add settings link to plugins page.
-     *
-     * @param mixed $links
-     * @return void
-     */
-    public function plugin_settings_link($links)
-    {
-        $url = get_admin_url() . 'admin.php?page=pac';
-        $settings_link = '<a href="' . $url . '">' . __('Settings', 'pac') . '</a>';
-        array_unshift($links, $settings_link);
-        return $links;
-    }
+	/**
+	 * Register the JavaScript for the admin area.
+	 *
+	 * @since 1.0.0
+	 */
+	public function enqueue_scripts() {
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/pac-admin.js', array( 'jquery' ), $this->version, false );
+	}
 
-    /**
-     * Add an options page under the Settings submenu
-     *
-     * @since 1.0.0
-     */
-    public function add_options_page()
-    {
-        $this->plugin_screen_hook_suffix = add_menu_page(
-            __(PAC_TITLE, 'pac'),
-            __(PAC_TITLE_SHORT, 'pac'),
-            'manage_options',
-            $this->plugin_name,
-            array($this, 'display_options_page'),
-            'dashicons-search',
-            30
-        );
+	/**
+	 * Add settings link to plugins page.
+	 *
+	 * @param mixed $links
+	 * @return void
+	 */
+	public function plugin_settings_link( $links ) {
+		$url           = get_admin_url() . 'admin.php?page=pac';
+		$settings_link = '<a href="' . $url . '">' . __( 'Settings', 'pac' ) . '</a>';
+		array_unshift( $links, $settings_link );
+		return $links;
+	}
 
-        $this->plugin_screen_hook_suffix = add_submenu_page(
-            $this->plugin_name,
-            __('Settings', 'pac'),
-            __('Settings', 'pac'),
-            'manage_options',
-            $this->plugin_name
-        );
+	/**
+	 * Add an options page under the Settings submenu
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_options_page() {
+		$this->plugin_screen_hook_suffix = add_menu_page(
+			__( PAC_TITLE, 'pac' ),
+			__( PAC_TITLE_SHORT, 'pac' ),
+			'manage_options',
+			$this->plugin_name,
+			array( $this, 'display_options_page' ),
+			'dashicons-search',
+			30
+		);
 
-        $this->plugin_screen_hook_suffix = add_submenu_page(
-            $this->plugin_name,
-            __('Scan and check', 'pac'),
-            __('Scan and check', 'pac'),
-            'manage_options',
-            $this->plugin_name . '-scan',
-            array($this, 'display_scan_page')
-        );
-    }
+		$this->plugin_screen_hook_suffix = add_submenu_page(
+			$this->plugin_name,
+			__( 'Settings', 'pac' ),
+			__( 'Settings', 'pac' ),
+			'manage_options',
+			$this->plugin_name
+		);
 
-    /**
-     * Render the options page for plugin
-     *
-     * @since 1.0.0
-     */
-    public function display_options_page()
-    {
-        $page = $this->plugin_name;
-        include_once 'partials/pac-admin-display.php';
-    }
+		$this->plugin_screen_hook_suffix = add_submenu_page(
+			$this->plugin_name,
+			__( 'Scan and check', 'pac' ),
+			__( 'Scan and check', 'pac' ),
+			'manage_options',
+			$this->plugin_name . '-scan',
+			array( $this, 'display_scan_page' )
+		);
+	}
 
-    /**
-     * Render the scan page for plugin
-     *
-     * @since 1.0.0
-     */
-    public function display_scan_page()
-    {
-        // Do we have valid API settings?
-        $api_status = $this->verify_api_credentials();
+	/**
+	 * Render the options page for plugin
+	 *
+	 * @since 1.0.0
+	 */
+	public function display_options_page() {
+		$page = $this->plugin_name;
+		include_once 'partials/pac-admin-display.php';
+	}
 
-        // @TODO: Add error message
-        // if (!$api_status) {
-        //     $notices = [
-        //         [
-        //             'message' => __('Missing or wrong Product Advertising API Credentials. Please check settings and try again.', 'pac'),
-        //             'class' => 'error'
-        //         ]
-        //     ];
-        // }
+	/**
+	 * Render the scan page for plugin
+	 *
+	 * @since 1.0.0
+	 */
+	public function display_scan_page() {
+		// Do we have valid API settings?
+		$api_status = $this->verify_api_credentials();
 
-        // Get timestamp of last scan
-        $last_scan = get_option('pac_last_scan');
-        if (!$last_scan) {
-            $last_scan = __('N/A', 'pac');
-        }
+		// @TODO: Add error message
+		// if (!$api_status) {
+		// $notices = [
+		// [
+		// 'message' => __('Missing or wrong Product Advertising API Credentials. Please check settings and try again.', 'pac'),
+		// 'class' => 'error'
+		// ]
+		// ];
+		// }
 
-        $page = $this->plugin_name . '-scan';
-        include_once 'partials/pac-scan-display.php';
-    }
+		// Get timestamp of last scan
+		$last_scan = get_option( 'pac_last_scan' );
+		if ( ! $last_scan ) {
+			$last_scan = __( 'N/A', 'pac' );
+		}
 
-    /**
-     * Register settings section
-     *
-     * @since 1.0.0
-     */
-    public function register_setting()
-    {
-        // Add a General section
-        add_settings_section(
-            $this->option_name . '_general',
-            __('Amazon Product Advertising API Settings', 'pac'),
-            array($this, $this->option_name . '_general_cb'),
-            $this->plugin_name
-        );
+		$page = $this->plugin_name . '-scan';
+		include_once 'partials/pac-scan-display.php';
+	}
 
-        // Setting fields
-        $fields = [
-            'api_status' => [
-                'type' => 'status_info',
-                'title' => __('Status', 'pac'),
-                'help' => ''
-            ],
-            'api_key' => [
-                'type' => 'text',
-                'title' => __('API Key', 'pac'),
-                'help' => ''
-            ],
-            'api_secret' => [
-                'type' => 'password',
-                'title' => __('API Secret', 'pac'),
-                'help' => ''
-            ],
-            'country' => [
-                'type' => 'amazon_country',
-                'title' => __('Country', 'pac'),
-                'help' => ''
-            ],
-            'associate_tag' => [
-                'type' => 'text',
-                'title' => __('Associate tag', 'pac'),
-                'help' => "Without the associate tag the conversion can't get assigned to your affiliate account.<br/>Your associate tag should look similar to <strong>xxxxx-21</strong> (may differ depending on the country)."
-            ],
-        ];
+	/**
+	 * Register settings section
+	 *
+	 * @since 1.0.0
+	 */
+	public function register_setting() {
+		// Add a General section
+		add_settings_section(
+			$this->option_name . '_general',
+			__( 'Amazon Product Advertising API Settings', 'pac' ),
+			array( $this, $this->option_name . '_general_cb' ),
+			$this->plugin_name
+		);
 
-        foreach ($fields as $key => $field) {
-            // Register setting fields
-            add_settings_field(
-                $this->option_name . '_' . $key,
-                $field['title'],
-                [$this, $this->option_name . '_render_field_cb'],
-                $this->plugin_name,
-                $this->option_name . '_general',
-                [
-                    'type' => $field['type'],
-                    'label_for' => $this->option_name . '_' . $key,
-                    'label_title' => $field['title'],
-                    'label_help' => $field['help']
-                ]
-            );
+		// Setting fields
+		$fields = array(
+			'api_status'    => array(
+				'type'  => 'status_info',
+				'title' => __( 'Status', 'pac' ),
+				'help'  => '',
+			),
+			'api_key'       => array(
+				'type'  => 'text',
+				'title' => __( 'API Key', 'pac' ),
+				'help'  => '',
+			),
+			'api_secret'    => array(
+				'type'  => 'password',
+				'title' => __( 'API Secret', 'pac' ),
+				'help'  => '',
+			),
+			'country'       => array(
+				'type'  => 'amazon_country',
+				'title' => __( 'Country', 'pac' ),
+				'help'  => '',
+			),
+			'associate_tag' => array(
+				'type'  => 'text',
+				'title' => __( 'Associate tag', 'pac' ),
+				'help'  => "Without the associate tag the conversion can't get assigned to your affiliate account.<br/>Your associate tag should look similar to <strong>xxxxx-21</strong> (may differ depending on the country).",
+			),
+		);
 
-            // Check with sanitization function to use
-            switch ($field['type']) {
-                case 'text':
-                default:
-                    $sanitize_cb = [$this, $this->option_name . '_sanitize_text'];
-                    break;
-            }
+		foreach ( $fields as $key => $field ) {
+			// Register setting fields
+			add_settings_field(
+				$this->option_name . '_' . $key,
+				$field['title'],
+				array( $this, $this->option_name . '_render_field_cb' ),
+				$this->plugin_name,
+				$this->option_name . '_general',
+				array(
+					'type'        => $field['type'],
+					'label_for'   => $this->option_name . '_' . $key,
+					'label_title' => $field['title'],
+					'label_help'  => $field['help'],
+				)
+			);
 
-            // Register settings
-            register_setting($this->plugin_name, $this->option_name . '_' . $key, $sanitize_cb);
-        }
-    }
+			// Check with sanitization function to use
+			switch ( $field['type'] ) {
+				case 'text':
+				default:
+					$sanitize_cb = array( $this, $this->option_name . '_sanitize_text' );
+					break;
+			}
 
-    /**
-     * Sanitize user input
-     *
-     * @param  mixed $field
-     * @return void
-     */
-    public function pac_sanitize_text($field)
-    {
-        return sanitize_text_field($field);
-    }
+			// Register settings
+			register_setting( $this->plugin_name, $this->option_name . '_' . $key, $sanitize_cb );
+		}
+	}
 
-    /**
-     * Render the text for the general section
-     *
-     * @since 1.0.0
-     */
-    public function pac_general_cb()
-    {
-        // Validate API Credentials (if any)
-        $api_status = $this->verify_api_credentials();
-        update_option('pac_api_status', $api_status);
+	/**
+	 * Sanitize user input
+	 *
+	 * @param  mixed $field
+	 * @return void
+	 */
+	public function pac_sanitize_text( $field ) {
+		return sanitize_text_field( $field );
+	}
 
-        echo '<p>' . __('In order to be able to use this plugin you need to be registered as an Amazon affiliate, and have a valid API Key.', 'pac') . '</p>';
-        echo '<ol>';
-        echo '<li>' . __('Register as an Amazon affiliate <a href="https://affiliate-program.amazon.com/" target="_blank">https://affiliate-program.amazon.com</a>', 'pac') . '</li>';
-        echo '<li>' . __('Create Amazon Product Advertising API credentials <a href="https://affiliate-program.amazon.com/gp/flex/advertising/api/sign-in.html" target="_blank">https://affiliate-program.amazon.com/gp/flex/advertising/api/sign-in.html</a>', 'pac') . '</li>';
-        echo '</ol>';
-    }
+	/**
+	 * Render the text for the general section
+	 *
+	 * @since 1.0.0
+	 */
+	public function pac_general_cb() {
+		// Validate API Credentials (if any)
+		$api_status = $this->verify_api_credentials();
+		update_option( 'pac_api_status', $api_status );
 
-    /**
-     * Render the radio input field for api_key option
-     *
-     * @since 1.0.0
-     */
-    public function pac_render_field_cb($args)
-    {
-        $value = get_option($args['label_for']);
-        switch ($args['type']) {
-            case 'status_info':
-                $status = [
-                    'color' => 'red',
-                    'icon' => 'no',
-                    'label' => __('Disconnected', 'pac')
-                ];
-                if (!empty($value)) {
-                    $status = [
-                        'color' => 'green',
-                        'icon' => 'yes',
-                        'label' => __('Connected', 'pac')
-                    ];
-                }
-                ?>
-                <fieldset>
-                    <label>
-                        <span style="color: <?php echo $status['color']; ?>;"><span class="dashicons dashicons-<?php echo $status['icon']; ?>"></span> <?php echo $status['label']; ?></span>
-                    </label>
-                </fieldset>
-                <?php
-                break;
-            case 'amazon_country':
-                $country_tags = $this->paapi->get_amazon_stores();
-                ?>
-                <fieldset>
-                    <select id="<?php echo $args['label_for'] ?>" name="<?php echo $args['label_for'] ?>">
-                        <?php foreach ($country_tags as $tag => $label) { ?>
-                            <option value="<?php echo $tag; ?>" <?php if ((empty($value) && $tag == 'com') || ($value == $tag)) :
-                                ?>selected<?php
-                                           endif; ?>>amazon.<?php echo $tag; ?></option>
-                        <?php } ?>
-                    </select>
-                    <p><small><?php echo $args['label_help'] ?></small></p>
-                </fieldset>
-                <?php
-                break;
-            case 'password':
-                ?>
-                <fieldset>
-                    <label>
-                        <input type="password" name="<?php echo $args['label_for'] ?>" id="<?php echo $args['label_for'] ?>" value="<?php echo $value; ?>">
-                        <p><small><?php echo $args['label_help'] ?></small></p>
-                    </label>
-                </fieldset>
-                <?php
-                break;
-            case 'text':
-            default:
-                ?>
-                <fieldset>
-                    <label>
-                        <input type="text" name="<?php echo $args['label_for'] ?>" id="<?php echo $args['label_for'] ?>" value="<?php echo $value; ?>">
-                        <p><small><?php echo $args['label_help'] ?></small></p>
-                    </label>
-                </fieldset>
-                <?php
-        }
-    }
+		echo '<p>' . __( 'In order to be able to use this plugin you need to be registered as an Amazon affiliate, and have a valid API Key.', 'pac' ) . '</p>';
+		echo '<ol>';
+		echo '<li>' . __( 'Register as an Amazon affiliate <a href="https://affiliate-program.amazon.com/" target="_blank">https://affiliate-program.amazon.com</a>', 'pac' ) . '</li>';
+		echo '<li>' . __( 'Create Amazon Product Advertising API credentials <a href="https://affiliate-program.amazon.com/gp/flex/advertising/api/sign-in.html" target="_blank">https://affiliate-program.amazon.com/gp/flex/advertising/api/sign-in.html</a>', 'pac' ) . '</li>';
+		echo '</ol>';
+	}
 
-    /**
-     * Verify that the Amazon PA API credentials are valid
-     *
-     * @since 1.0.0
-     */
-    public function verify_api_credentials()
-    {
-        $api = $this->paapi->load_amazon_api_config();
-        return $this->paapi->validate_amazon_api($api);
-    }
+	/**
+	 * Render the radio input field for api_key option
+	 *
+	 * @since 1.0.0
+	 */
+	public function pac_render_field_cb( $args ) {
+		$value = get_option( $args['label_for'] );
+		switch ( $args['type'] ) {
+			case 'status_info':
+				$status = array(
+					'color' => 'red',
+					'icon'  => 'no',
+					'label' => __( 'Disconnected', 'pac' ),
+				);
+				if ( ! empty( $value ) ) {
+					$status = array(
+						'color' => 'green',
+						'icon'  => 'yes',
+						'label' => __( 'Connected', 'pac' ),
+					);
+				}
+				?>
+				<fieldset>
+					<label>
+						<span style="color: <?php echo $status['color']; ?>;"><span class="dashicons dashicons-<?php echo $status['icon']; ?>"></span> <?php echo $status['label']; ?></span>
+					</label>
+				</fieldset>
+				<?php
+				break;
+			case 'amazon_country':
+				$country_tags = $this->paapi->get_amazon_stores();
+				?>
+				<fieldset>
+					<select id="<?php echo $args['label_for']; ?>" name="<?php echo $args['label_for']; ?>">
+						<?php foreach ( $country_tags as $tag => $label ) { ?>
+							<option value="<?php echo $tag; ?>" 
+													  <?php
+														if ( ( empty( $value ) && $tag == 'com' ) || ( $value == $tag ) ) :
+															?>
+																 selected 
+																<?php
+																		endif;
+														?>
+																			>amazon.<?php echo $tag; ?></option>
+						<?php } ?>
+					</select>
+					<p><small><?php echo $args['label_help']; ?></small></p>
+				</fieldset>
+				<?php
+				break;
+			case 'password':
+				?>
+				<fieldset>
+					<label>
+						<input type="password" name="<?php echo $args['label_for']; ?>" id="<?php echo $args['label_for']; ?>" value="<?php echo $value; ?>">
+						<p><small><?php echo $args['label_help']; ?></small></p>
+					</label>
+				</fieldset>
+				<?php
+				break;
+			case 'text':
+			default:
+				?>
+				<fieldset>
+					<label>
+						<input type="text" name="<?php echo $args['label_for']; ?>" id="<?php echo $args['label_for']; ?>" value="<?php echo $value; ?>">
+						<p><small><?php echo $args['label_help']; ?></small></p>
+					</label>
+				</fieldset>
+				<?php
+		}
+	}
 
-    /**
-     * Gets a list of posts or pages
-     *
-     * @return void
-     */
-    public function ajax_get_post_ids()
-    {
-        $allowed_content_types = ['post', 'page'];
-        $content_type = sanitize_text_field($_POST['content_type']);
+	/**
+	 * Verify that the Amazon PA API credentials are valid
+	 *
+	 * @since 1.0.0
+	 */
+	public function verify_api_credentials() {
+		$api = $this->paapi->load_amazon_api_config();
+		return $this->paapi->validate_amazon_api( $api );
+	}
 
-        $content = [];
-        if (in_array($content_type, $allowed_content_types)) {
-            // @TODO: Make this statement more robust
-            if ($content_type == 'post') {
-                // Save timestamp of last scan
-                $last_scan = get_option('pac_last_scan');
-                if (!$last_scan) {
-                    $last_scan = date('Y-m-d H:i:s');
-                    add_option('pac_last_scan', $last_scan);
-                } else {
-                    update_option('pac_last_scan', date('Y-m-d H:i:s'));
-                }
-            }
+	/**
+	 * Gets a list of posts or pages
+	 *
+	 * @return void
+	 */
+	public function ajax_get_post_ids() {
+		$allowed_content_types = array( 'post', 'page' );
+		$content_type          = sanitize_text_field( $_POST['content_type'] );
 
-            $args = array(
-                'post_type'   => $content_type,
-                'post_status'    => 'publish',
-                'numberposts' => -1,
-            );
+		$content = array();
+		if ( in_array( $content_type, $allowed_content_types ) ) {
+			// @TODO: Make this statement more robust
+			if ( $content_type == 'post' ) {
+				// Save timestamp of last scan
+				$last_scan = get_option( 'pac_last_scan' );
+				if ( ! $last_scan ) {
+					$last_scan = date( 'Y-m-d H:i:s' );
+					add_option( 'pac_last_scan', $last_scan );
+				} else {
+					update_option( 'pac_last_scan', date( 'Y-m-d H:i:s' ) );
+				}
+			}
 
-            $posts = get_posts($args);
-        }
+			$args = array(
+				'post_type'   => $content_type,
+				'post_status' => 'publish',
+				'numberposts' => -1,
+			);
 
-        foreach ($posts as $post) {
-            $content[] = [
-                'id' => $post->ID,
-                'permalink' => get_permalink($post->ID),
-                'title' => $post->post_title
-            ];
-        }
+			$posts = get_posts( $args );
+		}
 
-        echo json_encode($content);
+		foreach ( $posts as $post ) {
+			$content[] = array(
+				'id'        => $post->ID,
+				'permalink' => get_permalink( $post->ID ),
+				'title'     => $post->post_title,
+			);
+		}
 
-        wp_die(); // this is required to terminate immediately and return a proper response
-    }
+		echo json_encode( $content );
 
-    /**
-     * Gets all ASIN on a post/page and checks availability.
-     *
-     * @return void
-     */
-    public function ajax_get_post_info()
-    {
-        $return = [];
+		wp_die(); // this is required to terminate immediately and return a proper response
+	}
 
-        $id = intval($_POST['id']);
-        $post = get_post($id);
+	/**
+	 * Gets all ASIN on a post/page and checks availability.
+	 *
+	 * @return void
+	 */
+	public function ajax_get_post_info() {
+		$return = array();
 
-        if (!empty($post)) {
-            // Get post content and look for links
-            $post_content = apply_filters('the_content', $post->post_content);
+		$id   = intval( $_POST['id'] );
+		$post = get_post( $id );
 
-            // Regular links.
-            $amazon_matches = $this->helper->get_amazon_asin($post_content);
-            // Shortlinks.
-            $shortlink_matches = $this->helper->get_amazon_asin($post_content, true);
+		if ( ! empty( $post ) ) {
+			// Get post content and look for links
+			$post_content = apply_filters( 'the_content', $post->post_content );
 
-            $matches = array_merge($amazon_matches, $shortlink_matches);
+			// Regular links.
+			$amazon_matches = $this->helper->get_amazon_asin( $post_content );
+			// Shortlinks.
+			$shortlink_matches = $this->helper->get_amazon_asin( $post_content, true );
 
-            if (!empty($matches)) {
-                // ASIN found
-                $asin_collection = [];
-                foreach ($matches as $match) {
-                    if (!in_array($match[1], $asin_collection)) {
-                        $asin_collection[] = $match[1];
-                    }
-                }
+			$matches = array_merge( $amazon_matches, $shortlink_matches );
 
-                // getItem ASIN
-                $this->paapi->set_amazon_api_config_instance();
+			if ( ! empty( $matches ) ) {
+				// ASIN found
+				$asin_collection = array();
+				foreach ( $matches as $match ) {
+					if ( ! in_array( $match[1], $asin_collection ) ) {
+						$asin_collection[] = $match[1];
+					}
+				}
 
-                // Current getItems limit is 10
-                // @docs: https://webservices.amazon.com/paapi5/documentation/get-items.html
-                $item_collection = [];
-                if (count($asin_collection) > 10) {
-                    foreach (array_chunk($asin_collection, 10) as $asin_coll) {
-                        $items = $this->paapi->api_get_items($asin_coll);
-                        if ($items) {
-                            $item_collection = array_merge($item_collection, $items);
-                        }
-                    }
-                } else {
-                    $item_collection = $this->paapi->api_get_items($asin_collection);
-                }
+				// getItem ASIN
+				$this->paapi->set_amazon_api_config_instance();
 
-                if (!empty($asin_collection) && empty($item_collection)) {
-                    // Something went wrong retrieving the items. Most of the times is a malformed ASIN.
-                    // @TODO: Return an error.
-                }
+				// Current getItems limit is 10
+				// @docs: https://webservices.amazon.com/paapi5/documentation/get-items.html
+				$item_collection = array();
+				if ( count( $asin_collection ) > 10 ) {
+					foreach ( array_chunk( $asin_collection, 10 ) as $asin_coll ) {
+						$items = $this->paapi->api_get_items( $asin_coll );
+						if ( $items ) {
+							$item_collection = array_merge( $item_collection, $items );
+						}
+					}
+				} else {
+					$item_collection = $this->paapi->api_get_items( $asin_collection );
+				}
 
-                foreach ($item_collection as $item) {
-                    $asin = '';
-                    $title = '';
-                    $url = '';
-                    $offers = '';
-                    if ($item->getASIN()) {
-                        $asin = $item->getASIN();
-                    }
-                    if (
-                        $item->getItemInfo() != null
-                        && $item->getItemInfo()->getTitle() != null
-                        && $item->getItemInfo()->getTitle()->getDisplayValue() != null
-                    ) {
-                        $title = $item->getItemInfo()->getTitle()->getDisplayValue();
-                    }
-                    if ($item->getDetailPageURL() != null) {
-                        $url = $item->getDetailPageURL();
-                    }
-                    if (
-                        $item->getOffers() != null
-                        && $item->getOffers()->getListings() != null
-                        && $item->getOffers()->getListings()[0]->getPrice() != null
-                        && $item->getOffers()->getListings()[0]->getPrice()->getDisplayAmount() != null
-                    ) {
-                        $offers = $item->getOffers()->getListings()[0]->getPrice()->getDisplayAmount();
-                    }
-                    /**
-                     * Check if product has parent, and thus we need to check offers on the parent
-                     *
-                     * For more info refer: https://webservices.amazon.com/paapi5/documentation/use-cases/using-offer-information/items-that-do-not-have-offers.html
-                     */
-                    if (empty($offers) && $item->getParentASIN() != null) {
-                        // Wait 1 second to avoid throttle
-                        sleep(1);
+				if ( ! empty( $asin_collection ) && empty( $item_collection ) ) {
+					// Something went wrong retrieving the items. Most of the times is a malformed ASIN.
+					// @TODO: Return an error.
+				}
 
-                        $parentItem = $this->paapi->api_get_items([$item->getParentASIN()])[0];
-                        if (
-                            $parentItem != null
-                            && $parentItem->getOffers() != null
-                            && $parentItem->getOffers()->getListings() != null
-                            && $parentItem->getOffers()->getListings()[0]->getPrice() != null
-                            && $parentItem->getOffers()->getListings()[0]->getPrice()->getDisplayAmount() != null
-                        ) {
-                            $offers = $parentItem->getOffers()->getListings()[0]->getPrice()->getDisplayAmount();
-                        }
-                    }
+				foreach ( $item_collection as $item ) {
+					$asin   = '';
+					$title  = '';
+					$url    = '';
+					$offers = '';
+					if ( $item->getASIN() ) {
+						$asin = $item->getASIN();
+					}
+					if (
+						$item->getItemInfo() != null
+						&& $item->getItemInfo()->getTitle() != null
+						&& $item->getItemInfo()->getTitle()->getDisplayValue() != null
+					) {
+						$title = $item->getItemInfo()->getTitle()->getDisplayValue();
+					}
+					if ( $item->getDetailPageURL() != null ) {
+						$url = $item->getDetailPageURL();
+					}
+					if (
+						$item->getOffers() != null
+						&& $item->getOffers()->getListings() != null
+						&& $item->getOffers()->getListings()[0]->getPrice() != null
+						&& $item->getOffers()->getListings()[0]->getPrice()->getDisplayAmount() != null
+					) {
+						$offers = $item->getOffers()->getListings()[0]->getPrice()->getDisplayAmount();
+					}
+					/**
+					 * Check if product has parent, and thus we need to check offers on the parent
+					 *
+					 * For more info refer: https://webservices.amazon.com/paapi5/documentation/use-cases/using-offer-information/items-that-do-not-have-offers.html
+					 */
+					if ( empty( $offers ) && $item->getParentASIN() != null ) {
+						// Wait 1 second to avoid throttle
+						sleep( 1 );
 
-                    // Building return
-                    if (empty($offers)) {
-                        // Not available!
-                        $return[] = [
-                            'asin' => $asin,
-                            'title' => $title,
-                            'url' => $url,
-                            'offers' => $offers,
-                            'availability' => __('Not available.', 'pac')
-                        ];
-                    } else {
-                        // Still saleable
-                        $return[] = [
-                            'asin' => $asin,
-                            'title' => $title,
-                            'url' => $url,
-                            'offers' => $offers,
-                            'availability' => __('In stock.', 'pac')
-                        ];
-                    }
-                }
-            }
-            // Save the timestamp of the scan
-            if (!add_post_meta($post->ID, 'pac_last_scan', date('Y-m-d H:i:s'), true)) {
-                update_post_meta($post->ID, 'pac_last_scan', date('Y-m-d H:i:s'));
-            }
-        }
+						$parentItem = $this->paapi->api_get_items( array( $item->getParentASIN() ) )[0];
+						if (
+							$parentItem != null
+							&& $parentItem->getOffers() != null
+							&& $parentItem->getOffers()->getListings() != null
+							&& $parentItem->getOffers()->getListings()[0]->getPrice() != null
+							&& $parentItem->getOffers()->getListings()[0]->getPrice()->getDisplayAmount() != null
+						) {
+							$offers = $parentItem->getOffers()->getListings()[0]->getPrice()->getDisplayAmount();
+						}
+					}
 
-        echo json_encode($return);
+					// Building return
+					if ( empty( $offers ) ) {
+						// Not available!
+						$return[] = array(
+							'asin'         => $asin,
+							'title'        => $title,
+							'url'          => $url,
+							'offers'       => $offers,
+							'availability' => __( 'Not available.', 'pac' ),
+						);
+					} else {
+						// Still saleable
+						$return[] = array(
+							'asin'         => $asin,
+							'title'        => $title,
+							'url'          => $url,
+							'offers'       => $offers,
+							'availability' => __( 'In stock.', 'pac' ),
+						);
+					}
+				}
+			}
+			// Save the timestamp of the scan
+			if ( ! add_post_meta( $post->ID, 'pac_last_scan', date( 'Y-m-d H:i:s' ), true ) ) {
+				update_post_meta( $post->ID, 'pac_last_scan', date( 'Y-m-d H:i:s' ) );
+			}
+		}
 
-        wp_die(); // this is required to terminate immediately and return a proper response
-    }
+		echo json_encode( $return );
+
+		wp_die(); // this is required to terminate immediately and return a proper response
+	}
 }

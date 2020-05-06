@@ -10,17 +10,16 @@
  * @subpackage Pac/includes
  * @author     Jordi Plana <hello@jordiplana.com>
  */
-class Pac_Deactivator
-{
+class Pac_Deactivator {
 
-    /**
-     * Short Description. (use period)
-     *
-     * Long Description.
-     *
-     * @since 1.0.0
-     */
-    public static function deactivate()
-    {
-    }
+
+	/**
+	 * Short Description. (use period)
+	 *
+	 * Long Description.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function deactivate() {
+	}
 }
