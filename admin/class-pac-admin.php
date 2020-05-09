@@ -10,8 +10,8 @@
  * @subpackage Pac/admin
  * @author     Jordi Plana <hello@jordiplana.com>
  */
-class Pac_Admin
-{
+class Pac_Admin {
+
 
 
 
@@ -63,8 +63,7 @@ class Pac_Admin
 	 * @param string $plugin_name The name of this plugin.
 	 * @param string $version     The version of this plugin.
 	 */
-	public function __construct($plugin_name, $version)
-	{
+	public function __construct( $plugin_name, $version ) {
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
 		$this->helper      = new Pac_Helper();
@@ -76,9 +75,8 @@ class Pac_Admin
 	 *
 	 * @since 1.0.0
 	 */
-	public function admin_add_filters()
-	{
-		add_filter('plugin_action_links_' . PAC_PLUGIN_BASE_NAME . '/pac.php', array($this, 'plugin_settings_link'));
+	public function admin_add_filters() {
+		add_filter( 'plugin_action_links_' . PAC_PLUGIN_BASE_NAME . '/pac.php', array( $this, 'plugin_settings_link' ) );
 	}
 
 	/**
@@ -86,9 +84,8 @@ class Pac_Admin
 	 *
 	 * @since 1.2.0
 	 */
-	public function register_styles()
-	{
-		wp_register_script('Font_Awesome', 'https://use.fontawesome.com/releases/v5.3.1/js/all.js');
+	public function register_styles() {
+		 wp_register_script( 'Font_Awesome', 'https://use.fontawesome.com/releases/v5.3.1/js/all.js' );
 	}
 
 	/**
@@ -96,9 +93,8 @@ class Pac_Admin
 	 *
 	 * @since 1.2.0
 	 */
-	public function register_scripts()
-	{
-		wp_register_style('Bulma', 'https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css');
+	public function register_scripts() {
+		wp_register_style( 'Bulma', 'https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css' );
 	}
 
 	/**
@@ -106,14 +102,13 @@ class Pac_Admin
 	 *
 	 * @since 1.0.0
 	 */
-	public function enqueue_styles()
-	{
+	public function enqueue_styles() {
 		// Plugin.
-		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . '../assets/css/pac-admin.css', array(), $this->version, 'all');
-		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . '../assets/css/style.css', array(), $this->version, 'all');
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . '../assets/css/pac-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . '../assets/css/style.css', array(), $this->version, 'all' );
 
 		// External.
-		//wp_enqueue_style('Bulma');
+		// wp_enqueue_style('Bulma');
 	}
 
 	/**
@@ -121,13 +116,12 @@ class Pac_Admin
 	 *
 	 * @since 1.0.0
 	 */
-	public function enqueue_scripts()
-	{
-		// Plugin.
-		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . '../assets/js/pac-admin.js', array('jquery'), $this->version, false);
+	public function enqueue_scripts() {
+		 // Plugin.
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . '../assets/js/pac-admin.js', array( 'jquery' ), $this->version, false );
 
 		// External.
-		wp_enqueue_script('Font_Awesome');
+		wp_enqueue_script( 'Font_Awesome' );
 	}
 
 	/**
@@ -136,11 +130,10 @@ class Pac_Admin
 	 * @param mixed $links
 	 * @return void
 	 */
-	public function plugin_settings_link($links)
-	{
+	public function plugin_settings_link( $links ) {
 		$url           = get_admin_url() . 'admin.php?page=pac';
-		$settings_link = '<a href="' . $url . '">' . __('Settings', 'pac') . '</a>';
-		array_unshift($links, $settings_link);
+		$settings_link = '<a href="' . $url . '">' . __( 'Settings', 'pac' ) . '</a>';
+		array_unshift( $links, $settings_link );
 		return $links;
 	}
 
@@ -149,33 +142,32 @@ class Pac_Admin
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_options_page()
-	{
+	public function add_options_page() {
 		$this->plugin_screen_hook_suffix = add_menu_page(
-			__(PAC_TITLE, 'pac'),
-			__(PAC_TITLE_SHORT, 'pac'),
+			__( PAC_TITLE, 'pac' ),
+			__( PAC_TITLE_SHORT, 'pac' ),
 			'manage_options',
 			$this->plugin_name,
-			array($this, 'display_options_page'),
+			array( $this, 'display_options_page' ),
 			'dashicons-search',
 			30
 		);
 
 		$this->plugin_screen_hook_suffix = add_submenu_page(
 			$this->plugin_name,
-			__('Settings', 'pac'),
-			__('Settings', 'pac'),
+			__( 'Settings', 'pac' ),
+			__( 'Settings', 'pac' ),
 			'manage_options',
 			$this->plugin_name
 		);
 
 		$this->plugin_screen_hook_suffix = add_submenu_page(
 			$this->plugin_name,
-			__('Scan and check', 'pac'),
-			__('Scan and check', 'pac'),
+			__( 'Scan and check', 'pac' ),
+			__( 'Scan and check', 'pac' ),
 			'manage_options',
 			$this->plugin_name . '-scan',
-			array($this, 'display_scan_page')
+			array( $this, 'display_scan_page' )
 		);
 	}
 
@@ -184,8 +176,7 @@ class Pac_Admin
 	 *
 	 * @since 1.0.0
 	 */
-	public function display_options_page()
-	{
+	public function display_options_page() {
 		$page = $this->plugin_name;
 		include_once 'partials/pac-admin-display.php';
 	}
@@ -195,8 +186,7 @@ class Pac_Admin
 	 *
 	 * @since 1.0.0
 	 */
-	public function display_scan_page()
-	{
+	public function display_scan_page() {
 		// Do we have valid API settings?
 		$api_status = $this->verify_api_credentials();
 
@@ -211,9 +201,9 @@ class Pac_Admin
 		// }
 
 		// Get timestamp of last scan
-		$last_scan = get_option('pac_last_scan');
-		if (!$last_scan) {
-			$last_scan = __('N/A', 'pac');
+		$last_scan = get_option( 'pac_last_scan' );
+		if ( ! $last_scan ) {
+			$last_scan = __( 'N/A', 'pac' );
 		}
 
 		$page = $this->plugin_name . '-scan';
@@ -225,13 +215,12 @@ class Pac_Admin
 	 *
 	 * @since 1.0.0
 	 */
-	public function register_setting()
-	{
+	public function register_setting() {
 		// Add a General section
 		add_settings_section(
 			$this->option_name . '_general',
-			__('Amazon Product Advertising API Settings', 'pac'),
-			array($this, $this->option_name . '_general_cb'),
+			__( 'Amazon Product Advertising API Settings', 'pac' ),
+			array( $this, $this->option_name . '_general_cb' ),
 			$this->plugin_name
 		);
 
@@ -239,37 +228,37 @@ class Pac_Admin
 		$fields = array(
 			'api_status'    => array(
 				'type'  => 'status_info',
-				'title' => __('Status', 'pac'),
+				'title' => __( 'Status', 'pac' ),
 				'help'  => '',
 			),
 			'api_key'       => array(
 				'type'  => 'text',
-				'title' => __('API Key', 'pac'),
+				'title' => __( 'API Key', 'pac' ),
 				'help'  => '',
 			),
 			'api_secret'    => array(
 				'type'  => 'password',
-				'title' => __('API Secret', 'pac'),
+				'title' => __( 'API Secret', 'pac' ),
 				'help'  => '',
 			),
 			'country'       => array(
 				'type'  => 'amazon_country',
-				'title' => __('Country', 'pac'),
+				'title' => __( 'Country', 'pac' ),
 				'help'  => '',
 			),
 			'associate_tag' => array(
 				'type'  => 'text',
-				'title' => __('Associate tag', 'pac'),
+				'title' => __( 'Associate tag', 'pac' ),
 				'help'  => "Without the associate tag the conversion can't get assigned to your affiliate account.<br/>Your associate tag should look similar to <strong>xxxxx-21</strong> (may differ depending on the country).",
 			),
 		);
 
-		foreach ($fields as $key => $field) {
+		foreach ( $fields as $key => $field ) {
 			// Register setting fields
 			add_settings_field(
 				$this->option_name . '_' . $key,
 				$field['title'],
-				array($this, $this->option_name . '_render_field_cb'),
+				array( $this, $this->option_name . '_render_field_cb' ),
 				$this->plugin_name,
 				$this->option_name . '_general',
 				array(
@@ -281,15 +270,15 @@ class Pac_Admin
 			);
 
 			// Check with sanitization function to use
-			switch ($field['type']) {
+			switch ( $field['type'] ) {
 				case 'text':
 				default:
-					$sanitize_cb = array($this, $this->option_name . '_sanitize_text');
+					$sanitize_cb = array( $this, $this->option_name . '_sanitize_text' );
 					break;
 			}
 
 			// Register settings
-			register_setting($this->plugin_name, $this->option_name . '_' . $key, $sanitize_cb);
+			register_setting( $this->plugin_name, $this->option_name . '_' . $key, $sanitize_cb );
 		}
 	}
 
@@ -299,9 +288,8 @@ class Pac_Admin
 	 * @param  mixed $field
 	 * @return void
 	 */
-	public function pac_sanitize_text($field)
-	{
-		return sanitize_text_field($field);
+	public function pac_sanitize_text( $field ) {
+		return sanitize_text_field( $field );
 	}
 
 	/**
@@ -309,16 +297,15 @@ class Pac_Admin
 	 *
 	 * @since 1.0.0
 	 */
-	public function pac_general_cb()
-	{
+	public function pac_general_cb() {
 		// Validate API Credentials (if any)
 		$api_status = $this->verify_api_credentials();
-		update_option('pac_api_status', $api_status);
+		update_option( 'pac_api_status', $api_status );
 
-		echo '<p>' . __('In order to be able to use this plugin you need to be registered as an Amazon affiliate, and have a valid API Key.', 'pac') . '</p>';
+		echo '<p>' . __( 'In order to be able to use this plugin you need to be registered as an Amazon affiliate, and have a valid API Key.', 'pac' ) . '</p>';
 		echo '<ol>';
-		echo '<li>' . __('Register as an Amazon affiliate <a href="https://affiliate-program.amazon.com/" target="_blank">https://affiliate-program.amazon.com</a>', 'pac') . '</li>';
-		echo '<li>' . __('Create Amazon Product Advertising API credentials <a href="https://affiliate-program.amazon.com/gp/flex/advertising/api/sign-in.html" target="_blank">https://affiliate-program.amazon.com/gp/flex/advertising/api/sign-in.html</a>', 'pac') . '</li>';
+		echo '<li>' . __( 'Register as an Amazon affiliate <a href="https://affiliate-program.amazon.com/" target="_blank">https://affiliate-program.amazon.com</a>', 'pac' ) . '</li>';
+		echo '<li>' . __( 'Create Amazon Product Advertising API credentials <a href="https://affiliate-program.amazon.com/gp/flex/advertising/api/sign-in.html" target="_blank">https://affiliate-program.amazon.com/gp/flex/advertising/api/sign-in.html</a>', 'pac' ) . '</li>';
 		echo '</ol>';
 	}
 
@@ -327,68 +314,71 @@ class Pac_Admin
 	 *
 	 * @since 1.0.0
 	 */
-	public function pac_render_field_cb($args)
-	{
-		$value = get_option($args['label_for']);
-		switch ($args['type']) {
+	public function pac_render_field_cb( $args ) {
+		$value = get_option( $args['label_for'] );
+		switch ( $args['type'] ) {
 			case 'status_info':
 				$status = array(
 					'color' => 'red',
 					'icon'  => 'no',
-					'label' => __('Disconnected', 'pac'),
+					'label' => __( 'Disconnected', 'pac' ),
 				);
-				if (!empty($value)) {
+				if ( ! empty( $value ) ) {
 					$status = array(
 						'color' => 'green',
 						'icon'  => 'yes',
-						'label' => __('Connected', 'pac'),
+						'label' => __( 'Connected', 'pac' ),
 					);
 				}
-?>
+				?>
 				<fieldset>
 					<label>
 						<span style="color: <?php echo $status['color']; ?>;"><span class="dashicons dashicons-<?php echo $status['icon']; ?>"></span> <?php echo $status['label']; ?></span>
 					</label>
 				</fieldset>
-			<?php
+				<?php
 				break;
 			case 'amazon_country':
 				$country_tags = $this->paapi->get_amazon_stores();
-			?>
+				?>
 				<fieldset>
 					<select id="<?php echo $args['label_for']; ?>" name="<?php echo $args['label_for']; ?>">
-						<?php foreach ($country_tags as $tag => $label) { ?>
-							<option value="<?php echo $tag; ?>" <?php
-																if ((empty($value) && $tag == 'com') || ($value == $tag)) :
-																?> selected <?php
+						<?php foreach ( $country_tags as $tag => $label ) { ?>
+							<option value="<?php echo $tag; ?>" 
+													  <?php
+														if ( ( empty( $value ) && $tag == 'com' ) || ( $value == $tag ) ) :
+															?>
+																 selected 
+																<?php
 																		endif;
-																			?>>amazon.<?php echo $tag; ?></option>
+														?>
+																			>amazon.<?php echo $tag; ?></option>
 						<?php } ?>
 					</select>
 					<p><small><?php echo $args['label_help']; ?></small></p>
 				</fieldset>
-			<?php
+				<?php
 				break;
 			case 'password':
-			?>
+				?>
 				<fieldset>
 					<label>
 						<input type="password" name="<?php echo $args['label_for']; ?>" id="<?php echo $args['label_for']; ?>" value="<?php echo $value; ?>">
 						<p><small><?php echo $args['label_help']; ?></small></p>
 					</label>
 				</fieldset>
-			<?php
+				<?php
 				break;
 			case 'text':
 			default:
-			?>
+				?>
 				<fieldset>
 					<label>
 						<input type="text" name="<?php echo $args['label_for']; ?>" id="<?php echo $args['label_for']; ?>" value="<?php echo $value; ?>">
 						<p><small><?php echo $args['label_help']; ?></small></p>
 					</label>
 				</fieldset>
-<?php
+				<?php
 		}
 	}
 
@@ -397,10 +387,9 @@ class Pac_Admin
 	 *
 	 * @since 1.0.0
 	 */
-	public function verify_api_credentials()
-	{
+	public function verify_api_credentials() {
 		$api = $this->paapi->load_amazon_api_config();
-		return $this->paapi->validate_amazon_api($api);
+		return $this->paapi->validate_amazon_api( $api );
 	}
 
 	/**
@@ -408,22 +397,21 @@ class Pac_Admin
 	 *
 	 * @return void
 	 */
-	public function ajax_get_post_ids()
-	{
-		$allowed_content_types = array('post', 'page');
-		$content_type          = sanitize_text_field($_POST['content_type']);
+	public function ajax_get_post_ids() {
+		$allowed_content_types = array( 'post', 'page' );
+		$content_type          = sanitize_text_field( $_POST['content_type'] );
 
 		$content = array();
-		if (in_array($content_type, $allowed_content_types)) {
+		if ( in_array( $content_type, $allowed_content_types ) ) {
 			// @TODO: Make this statement more robust
-			if ($content_type == 'post') {
+			if ( $content_type == 'post' ) {
 				// Save timestamp of last scan
-				$last_scan = get_option('pac_last_scan');
-				if (!$last_scan) {
-					$last_scan = date('Y-m-d H:i:s');
-					add_option('pac_last_scan', $last_scan);
+				$last_scan = get_option( 'pac_last_scan' );
+				if ( ! $last_scan ) {
+					$last_scan = date( 'Y-m-d H:i:s' );
+					add_option( 'pac_last_scan', $last_scan );
 				} else {
-					update_option('pac_last_scan', date('Y-m-d H:i:s'));
+					update_option( 'pac_last_scan', date( 'Y-m-d H:i:s' ) );
 				}
 			}
 
@@ -433,18 +421,18 @@ class Pac_Admin
 				'numberposts' => -1,
 			);
 
-			$posts = get_posts($args);
+			$posts = get_posts( $args );
 		}
 
-		foreach ($posts as $post) {
+		foreach ( $posts as $post ) {
 			$content[] = array(
 				'id'        => $post->ID,
-				'permalink' => get_permalink($post->ID),
+				'permalink' => get_permalink( $post->ID ),
 				'title'     => $post->post_title,
 			);
 		}
 
-		echo json_encode($content);
+		echo json_encode( $content );
 
 		wp_die(); // this is required to terminate immediately and return a proper response
 	}
@@ -454,29 +442,28 @@ class Pac_Admin
 	 *
 	 * @return void
 	 */
-	public function ajax_get_post_info()
-	{
+	public function ajax_get_post_info() {
 		$return = array();
 
-		$id   = intval($_POST['id']);
-		$post = get_post($id);
+		$id   = intval( $_POST['id'] );
+		$post = get_post( $id );
 
-		if (!empty($post)) {
+		if ( ! empty( $post ) ) {
 			// Get post content and look for links
-			$post_content = apply_filters('the_content', $post->post_content);
+			$post_content = apply_filters( 'the_content', $post->post_content );
 
 			// Regular links.
-			$amazon_matches = $this->helper->get_amazon_asin($post_content);
+			$amazon_matches = $this->helper->get_amazon_asin( $post_content );
 			// Shortlinks.
-			$shortlink_matches = $this->helper->get_amazon_asin($post_content, true);
+			$shortlink_matches = $this->helper->get_amazon_asin( $post_content, true );
 
-			$matches = array_merge($amazon_matches, $shortlink_matches);
+			$matches = array_merge( $amazon_matches, $shortlink_matches );
 
-			if (!empty($matches)) {
+			if ( ! empty( $matches ) ) {
 				// ASIN found
 				$asin_collection = array();
-				foreach ($matches as $match) {
-					if (!in_array($match[1], $asin_collection)) {
+				foreach ( $matches as $match ) {
+					if ( ! in_array( $match[1], $asin_collection ) ) {
 						$asin_collection[] = $match[1];
 					}
 				}
@@ -487,28 +474,28 @@ class Pac_Admin
 				// Current getItems limit is 10
 				// @docs: https://webservices.amazon.com/paapi5/documentation/get-items.html
 				$item_collection = array();
-				if (count($asin_collection) > 10) {
-					foreach (array_chunk($asin_collection, 10) as $asin_coll) {
-						$items = $this->paapi->api_get_items($asin_coll);
-						if ($items) {
-							$item_collection = array_merge($item_collection, $items);
+				if ( count( $asin_collection ) > 10 ) {
+					foreach ( array_chunk( $asin_collection, 10 ) as $asin_coll ) {
+						$items = $this->paapi->api_get_items( $asin_coll );
+						if ( $items ) {
+							$item_collection = array_merge( $item_collection, $items );
 						}
 					}
 				} else {
-					$item_collection = $this->paapi->api_get_items($asin_collection);
+					$item_collection = $this->paapi->api_get_items( $asin_collection );
 				}
 
-				if (!empty($asin_collection) && empty($item_collection)) {
+				if ( ! empty( $asin_collection ) && empty( $item_collection ) ) {
 					// Something went wrong retrieving the items. Most of the times is a malformed ASIN.
 					// @TODO: Return an error.
 				}
 
-				foreach ($item_collection as $item) {
+				foreach ( $item_collection as $item ) {
 					$asin   = '';
 					$title  = '';
 					$url    = '';
 					$offers = '';
-					if ($item->getASIN()) {
+					if ( $item->getASIN() ) {
 						$asin = $item->getASIN();
 					}
 					if (
@@ -518,7 +505,7 @@ class Pac_Admin
 					) {
 						$title = $item->getItemInfo()->getTitle()->getDisplayValue();
 					}
-					if ($item->getDetailPageURL() != null) {
+					if ( $item->getDetailPageURL() != null ) {
 						$url = $item->getDetailPageURL();
 					}
 					if (
@@ -534,11 +521,11 @@ class Pac_Admin
 					 *
 					 * For more info refer: https://webservices.amazon.com/paapi5/documentation/use-cases/using-offer-information/items-that-do-not-have-offers.html
 					 */
-					if (empty($offers) && $item->getParentASIN() != null) {
+					if ( empty( $offers ) && $item->getParentASIN() != null ) {
 						// Wait 1 second to avoid throttle
-						sleep(1);
+						sleep( 1 );
 
-						$parentItem = $this->paapi->api_get_items(array($item->getParentASIN()))[0];
+						$parentItem = $this->paapi->api_get_items( array( $item->getParentASIN() ) )[0];
 						if (
 							$parentItem != null
 							&& $parentItem->getOffers() != null
@@ -551,14 +538,14 @@ class Pac_Admin
 					}
 
 					// Building return
-					if (empty($offers)) {
+					if ( empty( $offers ) ) {
 						// Not available!
 						$return[] = array(
 							'asin'         => $asin,
 							'title'        => $title,
 							'url'          => $url,
 							'offers'       => $offers,
-							'availability' => __('Not available.', 'pac'),
+							'availability' => __( 'Not available.', 'pac' ),
 						);
 					} else {
 						// Still saleable
@@ -567,18 +554,18 @@ class Pac_Admin
 							'title'        => $title,
 							'url'          => $url,
 							'offers'       => $offers,
-							'availability' => __('In stock.', 'pac'),
+							'availability' => __( 'In stock.', 'pac' ),
 						);
 					}
 				}
 			}
 			// Save the timestamp of the scan
-			if (!add_post_meta($post->ID, 'pac_last_scan', date('Y-m-d H:i:s'), true)) {
-				update_post_meta($post->ID, 'pac_last_scan', date('Y-m-d H:i:s'));
+			if ( ! add_post_meta( $post->ID, 'pac_last_scan', date( 'Y-m-d H:i:s' ), true ) ) {
+				update_post_meta( $post->ID, 'pac_last_scan', date( 'Y-m-d H:i:s' ) );
 			}
 		}
 
-		echo json_encode($return);
+		echo json_encode( $return );
 
 		wp_die(); // this is required to terminate immediately and return a proper response
 	}

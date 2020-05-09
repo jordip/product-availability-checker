@@ -25,8 +25,19 @@
   height: 10px;
 }
 
-#pac-navBar {
+#pac-navbar-menu {
   a {
     text-decoration: none;
   }
+}
+#pac-navbar {
+  margin-bottom: 20px;
+}
+
+/* Utility classes */
+.no-top-border {
+  border-top: none;
+}
+.no-bottom-border {
+  border-bottom: none;
 }

@@ -11,23 +11,26 @@
  */
 
 $tabs = array(
-	'pac'      => __('Settings', 'pac'),
-	'pac-scan' => __('Scan and check', 'pac'),
+	'pac'      => __( 'Settings', 'pac' ),
+	'pac-scan' => __( 'Scan and check', 'pac' ),
 );
 ?>
 
-<nav class="navbar" role="navigation" aria-label="main navigation">
+<nav id="pac-navbar" class="navbar is-white" role="navigation" aria-label="main navigation">
 	<div class="navbar-brand">
 		<a class="navbar-item" href="#">
-			<img src="<?php echo plugins_url('../../assets/icon-128x128.png', dirname(__FILE__)); ?>" width="28" height="28">
+			<img src="<?php echo plugins_url( '../../assets/icon-128x128.png', dirname( __FILE__ ) ); ?>" width="28" height="28">
 		</a>
 	</div>
 
-	<div id="pac-navBar" class="navbar-menu">
+	<div id="pac-navbar-menu" class="navbar-menu">
 		<div class="navbar-start">
-
-			<?php foreach ($tabs as $url => $title) : ?>
-				<a href="admin.php?page=<?php echo $url; ?>" class="navbar-item <?php if ($url == $page) : ?>is-active<?php endif; ?>"><?php echo $title; ?></a>
+			<?php foreach ( $tabs as $url => $title ) : ?>
+				<a href="admin.php?page=<?php echo $url; ?>" class="navbar-item 
+												   <?php
+													if ( $url == $page ) :
+														?>
+					is-active is-tab<?php endif; ?>"><?php echo $title; ?></a>
 			<?php endforeach; ?>
 		</div>
 		<div class="navbar-end">

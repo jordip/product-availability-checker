@@ -26,6 +26,7 @@ use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType;
 class Pac_Paapi {
 
 
+
 	/**
 	 * The options name to be used in this plugin
 	 *
@@ -70,21 +71,21 @@ class Pac_Paapi {
 	 */
 	public function get_amazon_stores() {
 		$stores = array(
-			'com.au' => __( 'Australia', 'aawp' ),
-			'com.br' => __( 'Brazil', 'aawp' ),
-			'ca'     => __( 'Canada', 'aawp' ),
-			'cn'     => __( 'China', 'aawp' ),
-			'de'     => __( 'Germany', 'aawp' ),
-			'es'     => __( 'Spain', 'aawp' ),
-			'fr'     => __( 'France', 'aawp' ),
-			'in'     => __( 'India', 'aawp' ),
-			'it'     => __( 'Italy', 'aawp' ),
-			'co.jp'  => __( 'Japan', 'aawp' ),
-			'com.mx' => __( 'Mexico', 'aawp' ),
-			'com.tr' => __( 'Turkey', 'aawp' ),
-			'co.uk'  => __( 'UK', 'aawp' ),
-			'com'    => __( 'US', 'aawp' ),
-			'ae'     => __( 'United Arab Emirates', 'aawp' ),
+			'com.au' => __( 'Australia', 'pac' ),
+			'com.br' => __( 'Brazil', 'pac' ),
+			'ca'     => __( 'Canada', 'pac' ),
+			'cn'     => __( 'China', 'pac' ),
+			'de'     => __( 'Germany', 'pac' ),
+			'es'     => __( 'Spain', 'pac' ),
+			'fr'     => __( 'France', 'pac' ),
+			'in'     => __( 'India', 'pac' ),
+			'it'     => __( 'Italy', 'pac' ),
+			'co.jp'  => __( 'Japan', 'pac' ),
+			'com.mx' => __( 'Mexico', 'pac' ),
+			'com.tr' => __( 'Turkey', 'pac' ),
+			'co.uk'  => __( 'UK', 'pac' ),
+			'com'    => __( 'US', 'pac' ),
+			'ae'     => __( 'United Arab Emirates', 'pac' ),
 		);
 
 		return $stores;

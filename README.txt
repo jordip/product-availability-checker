@@ -54,6 +54,12 @@ Feedback is always welcome, please start a thread in the Wordpress.org plugin su
 
 == Changelog ==
 
+= 1.2.0 =
+
+- Add recheck functionality per post.
+- Code standards formatting.
+- UX improvements.
+
 = 1.1.0 =
 
 - Add compatibility with Amazon Shortlinks (amzn.to / amzn.com).

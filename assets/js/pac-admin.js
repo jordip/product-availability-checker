@@ -17,10 +17,25 @@
 
       function showProgress() {
         // Check if we are done
-        if (posts !== undefined && posts.length == 0) {
+        if (
+          posts !== undefined &&
+          posts.length == 0 &&
+          types !== undefined &&
+          types.length == 0
+        ) {
           $("#progress-loader").hide();
+          $("#scan-start-stop")
+            .removeClass("start")
+            .removeClass("stop")
+            .addClass("disabled")
+            .attr("disabled", true)
+            .val("Scan completed")
+            .off();
           $("#scan-progress").html(
-            '<span class="dashicons dashicons-yes"></span>  Scan finished'
+            '<span class="dashicons dashicons-yes"></span>  Scan completed'
+          );
+          $("#scan-result").append(
+            '<p style="color:green;"><span class="dashicons dashicons-yes"></span> Process completed!</p>'
           );
           clearInterval(progressI);
         }
@@ -64,7 +79,7 @@
             for (var i = 0; i < info.length; i++) {
               if (info[i].offers === undefined || info[i].offers == "") {
                 $("ul#products-post" + post_id).append(
-                  '<li><span style="color:red">[x]</span> ' +
+                  '<li><span class="icon has-text-danger"><i class= "fas fa-times" ></i></span > ' +
                     info[i].asin +
                     " - " +
                     info[i].title.substr(0, 50) +
@@ -81,9 +96,9 @@
           $("#result-post" + post_id).append(
             '<p id="total-post' +
               post_id +
-              '">Checked ' +
+              '"><span class="tag is-success is-light">Checked ' +
               info.length +
-              " products.</p>"
+              " products.</span></p>"
           );
           if (!recheck) {
             $("#actions-post" + post_id).append(
@@ -116,9 +131,6 @@
           }
           // Completely done
           clearInterval(checkPostI);
-          $("#scan-result").append(
-            '<p style="color:green;"><span class="dashicons dashicons-yes"></span> Process completed!</p>'
-          );
           return;
         }
 
@@ -196,6 +208,11 @@
         $(this).removeClass("stop").addClass("start");
         $(this).val("Resume scanning");
       }
+    });
+
+    $("#check-settings").click(function (e) {
+      e.preventDefault();
+      window.location = "admin.php?page=pac";
     });
   });
 })(jQuery);

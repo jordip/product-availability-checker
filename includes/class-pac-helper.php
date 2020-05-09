@@ -10,8 +10,9 @@
  * @subpackage Pac/includes
  * @author     Jordi Plana <hello@jordiplana.com>
  */
-
 class Pac_Helper {
+
+
 
 	/**
 	 * Gets the content of a URL.
