@@ -8,7 +8,7 @@
  * @since      1.0.0
  * @package    Pac
  * @subpackage Pac/includes
- * @author     Jordi Plana <hello@jordiplana.com>
+ * @author     ProductAvailable.com <info@productavailable.com>
  */
 
 // Load dependencies
@@ -67,31 +67,6 @@ class Pac_Paapi {
 	}
 
 	/**
-	 * Amazon Stores
-	 */
-	public function get_amazon_stores() {
-		$stores = array(
-			'com.au' => __( 'Australia', 'pac' ),
-			'com.br' => __( 'Brazil', 'pac' ),
-			'ca'     => __( 'Canada', 'pac' ),
-			'cn'     => __( 'China', 'pac' ),
-			'de'     => __( 'Germany', 'pac' ),
-			'es'     => __( 'Spain', 'pac' ),
-			'fr'     => __( 'France', 'pac' ),
-			'in'     => __( 'India', 'pac' ),
-			'it'     => __( 'Italy', 'pac' ),
-			'co.jp'  => __( 'Japan', 'pac' ),
-			'com.mx' => __( 'Mexico', 'pac' ),
-			'com.tr' => __( 'Turkey', 'pac' ),
-			'co.uk'  => __( 'UK', 'pac' ),
-			'com'    => __( 'US', 'pac' ),
-			'ae'     => __( 'United Arab Emirates', 'pac' ),
-		);
-
-		return $stores;
-	}
-
-	/**
 	 * Loads API config
 	 *
 	 * @return void
@@ -123,10 +98,6 @@ class Pac_Paapi {
 			$this->associate_tag = $api['associate_tag'];
 			$this->config->setHost( 'webservices.amazon.' . $api['country'] );
 			$this->config->setRegion( $this->get_amazon_api_region( $api['country'] ) );
-
-			// @TODO: Remove
-			// $this->config->setDebug(true);
-			// $this->config->setDebugFile('debug.log');
 
 			$this->instance = new DefaultApi( new GuzzleHttp\Client(), $this->config );
 		}
@@ -226,6 +197,31 @@ class Pac_Paapi {
 		} catch ( Exception $exception ) {
 		}
 		return false;
+	}
+
+	/**
+	 * Amazon Stores
+	 */
+	public function get_amazon_stores() {
+		$stores = array(
+			'com.au' => __( 'Australia', 'pac' ),
+			'com.br' => __( 'Brazil', 'pac' ),
+			'ca'     => __( 'Canada', 'pac' ),
+			'cn'     => __( 'China', 'pac' ),
+			'de'     => __( 'Germany', 'pac' ),
+			'es'     => __( 'Spain', 'pac' ),
+			'fr'     => __( 'France', 'pac' ),
+			'in'     => __( 'India', 'pac' ),
+			'it'     => __( 'Italy', 'pac' ),
+			'co.jp'  => __( 'Japan', 'pac' ),
+			'com.mx' => __( 'Mexico', 'pac' ),
+			'com.tr' => __( 'Turkey', 'pac' ),
+			'co.uk'  => __( 'UK', 'pac' ),
+			'com'    => __( 'US', 'pac' ),
+			'ae'     => __( 'United Arab Emirates', 'pac' ),
+		);
+
+		return $stores;
 	}
 
 	/**

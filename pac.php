@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The plugin bootstrap file
  *
@@ -7,16 +8,16 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link    https://jordiplana.com
+ * @link    https://productavailable.com
  * @since   1.0.0
  * @package Pac
  *
  * @wordpress-plugin
- * Plugin Name:       Product Availability Checker
- * Description:       Check your site for Amazon Affiliate's links to products that are out of stock. Stop sending your visitors to products that are no longer available!
- * Version:           1.2.0
- * Author:            Jordi Plana
- * Author URI:        https://jordiplana.com
+ * Plugin Name:       Amazon Product Availability Tracker
+ * Description:       Scans your Amazon Affiliate site for links to products that are out of stock, or no longer available.
+ * Version:           1.3.0
+ * Author:            ProductAvailable.com
+ * Author URI:        https://productavailable.com
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       pac
@@ -33,17 +34,22 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'PAC_VERSION', '1.1.0' );
+define( 'PAC_VERSION', '1.3.0' );
 
 /**
  * Plugin name to be used.
  */
-define( 'PAC_TITLE', 'Product Availability Checker' );
+define( 'PAC_DB_VERSION', '1.0.0' );
+
+/**
+ * Plugin name to be used.
+ */
+define( 'PAC_TITLE', 'Amazon Product Availability Tracker' );
 
 /**
  * Plugin name to be used for menus.
  */
-define( 'PAC_TITLE_SHORT', 'Product Availability' );
+define( 'PAC_TITLE_SHORT', 'Amazon Products' );
 
 // Plugin Folder Path.
 if ( ! defined( 'PAC_PLUGIN_DIR' ) ) {
@@ -55,8 +61,9 @@ if ( ! defined( 'PAC_PLUGIN_BASE_NAME' ) ) {
 	define( 'PAC_PLUGIN_BASE_NAME', plugin_basename( plugin_dir_path( __FILE__ ) ) );
 }
 
-// Plugin Base Path.
-
+// Availability status.
+define( 'PAC_STATUS_AVAILABLE', 1 );
+define( 'PAC_STATUS_NOT_AVAILABLE', 0 );
 
 /**
  * The code that runs during plugin activation.
@@ -65,6 +72,15 @@ if ( ! defined( 'PAC_PLUGIN_BASE_NAME' ) ) {
 function activate_pac() {
 	include_once plugin_dir_path( __FILE__ ) . 'includes/class-pac-activator.php';
 	Pac_Activator::activate();
+}
+
+/**
+ * The code that runs during plugin update.
+ * This action is documented in includes/class-pac-update.php
+ */
+function update_pac() {
+	include_once plugin_dir_path( __FILE__ ) . 'includes/class-pac-activator.php';
+	Pac_Activator::update();
 }
 
 /**
@@ -78,6 +94,7 @@ function deactivate_pac() {
 
 register_activation_hook( __FILE__, 'activate_pac' );
 register_deactivation_hook( __FILE__, 'deactivate_pac' );
+add_action( 'plugins_loaded', 'update_pac' );
 
 /**
  * The core plugin class that is used to define internationalization,

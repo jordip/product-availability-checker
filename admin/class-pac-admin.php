@@ -8,7 +8,7 @@
  *
  * @package    Pac
  * @subpackage Pac/admin
- * @author     Jordi Plana <hello@jordiplana.com>
+ * @author     ProductAvailable.com <info@productavailable.com>
  */
 class Pac_Admin {
 
@@ -94,7 +94,6 @@ class Pac_Admin {
 	 * @since 1.2.0
 	 */
 	public function register_scripts() {
-		wp_register_style( 'Bulma', 'https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css' );
 	}
 
 	/**
@@ -163,11 +162,20 @@ class Pac_Admin {
 
 		$this->plugin_screen_hook_suffix = add_submenu_page(
 			$this->plugin_name,
-			__( 'Scan and check', 'pac' ),
-			__( 'Scan and check', 'pac' ),
+			__( 'Scan', 'pac' ),
+			__( 'Scan', 'pac' ),
 			'manage_options',
 			$this->plugin_name . '-scan',
 			array( $this, 'display_scan_page' )
+		);
+
+		$this->plugin_screen_hook_suffix = add_submenu_page(
+			$this->plugin_name,
+			__( 'Reports', 'pac' ),
+			__( 'Reports', 'pac' ),
+			'manage_options',
+			$this->plugin_name . '-report',
+			array( $this, 'display_report_page' )
 		);
 	}
 
@@ -187,27 +195,87 @@ class Pac_Admin {
 	 * @since 1.0.0
 	 */
 	public function display_scan_page() {
+		global $wpdb;
 		// Do we have valid API settings?
 		$api_status = $this->verify_api_credentials();
 
-		// @TODO: Add error message
-		// if (!$api_status) {
-		// $notices = [
-		// [
-		// 'message' => __('Missing or wrong Product Advertising API Credentials. Please check settings and try again.', 'pac'),
-		// 'class' => 'error'
-		// ]
-		// ];
-		// }
-
 		// Get timestamp of last scan
-		$last_scan = get_option( 'pac_last_scan' );
-		if ( ! $last_scan ) {
-			$last_scan = __( 'N/A', 'pac' );
+		$table_name_scans = $wpdb->prefix . 'pac_scans';
+		$scan             = $wpdb->get_row( "SELECT * FROM $table_name_scans ORDER BY id DESC" );
+		if ( $scan ) {
+			$last_scan = $scan->time;
+		} else {
+			$last_scan = '';
+		}
+		$page = $this->plugin_name . '-scan';
+
+		// Template
+		include_once 'partials/pac-scan-display.php';
+	}
+
+	/**
+	 * Render the report page for plugin
+	 *
+	 * @since 1.3.0
+	 */
+	public function display_report_page() {
+		 global $wpdb;
+
+		$output = array();
+
+		// Do we have valid API settings?
+		$api_status = $this->verify_api_credentials();
+
+		if ( $api_status ) {
+			$table_name_scans    = $wpdb->prefix . 'pac_scans';
+			$table_name_results  = $wpdb->prefix . 'pac_results';
+			$table_name_products = $wpdb->prefix . 'pac_products';
+
+			// Get last scan
+			$scan = $wpdb->get_row( "SELECT * FROM $table_name_scans ORDER BY id DESC" );
+			if ( $scan ) {
+				$output['scan_time'] = $scan->time;
+				$results             = $wpdb->get_results(
+					$wpdb->prepare(
+						'SELECT
+							r.post_id, p.*
+						FROM
+							vir_pac_products p,
+							vir_pac_results r
+						WHERE
+							r.product_id = p.id AND
+							r.scan_id = %d',
+						$scan->id
+					)
+				);
+
+				$post = array();
+				foreach ( $results as $i => $result ) {
+					// Get post info
+					if ( $i == 0 || $result->post_id != $post->ID ) {
+						$post                         = get_post( $result->post_id );
+						$output['posts'][ $post->ID ] = array(
+							'post_id'   => $post->ID,
+							'title'     => $post->post_title,
+							// 'base_url' => get_site_url(),
+							'url'       => get_permalink( $post ),
+							'scan_time' => $result->time,
+						);
+					}
+
+					// Prepare output
+					$output['posts'][ $post->ID ]['products'][] = array(
+						'asin'   => $result->asin,
+						'title'  => $result->title,
+						'url'    => $result->url,
+						'status' => $result->status,
+					);
+				}
+			}
 		}
 
-		$page = $this->plugin_name . '-scan';
-		include_once 'partials/pac-scan-display.php';
+		// Template
+		include_once 'partials/pac-report-display.php';
 	}
 
 	/**
@@ -398,21 +466,23 @@ class Pac_Admin {
 	 * @return void
 	 */
 	public function ajax_get_post_ids() {
+		global $wpdb;
 		$allowed_content_types = array( 'post', 'page' );
 		$content_type          = sanitize_text_field( $_POST['content_type'] );
+		$hash                  = sanitize_text_field( $_POST['hash'] );
 
 		$content = array();
 		if ( in_array( $content_type, $allowed_content_types ) ) {
-			// @TODO: Make this statement more robust
-			if ( $content_type == 'post' ) {
-				// Save timestamp of last scan
-				$last_scan = get_option( 'pac_last_scan' );
-				if ( ! $last_scan ) {
-					$last_scan = date( 'Y-m-d H:i:s' );
-					add_option( 'pac_last_scan', $last_scan );
-				} else {
-					update_option( 'pac_last_scan', date( 'Y-m-d H:i:s' ) );
-				}
+			// Check if we are updating a current scan, or creating a new one.
+			$table_name_scans = $wpdb->prefix . 'pac_scans';
+			$scan             = $wpdb->get_row( "SELECT * FROM $table_name_scans WHERE hash = $hash" );
+			if ( empty( $scan ) ) {
+				// New scan
+				$scan    = $wpdb->insert( $table_name_scans, array( 'hash' => $hash ) );
+				$scan_id = $wpdb->insert_id;
+			} else {
+				// Existing scan
+				$scan_id = $scan->id;
 			}
 
 			$args = array(
@@ -443,12 +513,20 @@ class Pac_Admin {
 	 * @return void
 	 */
 	public function ajax_get_post_info() {
+		global $wpdb;
+
 		$return = array();
 
 		$id   = intval( $_POST['id'] );
 		$post = get_post( $id );
+		$hash = sanitize_text_field( $_POST['hash'] );
 
-		if ( ! empty( $post ) ) {
+		if ( ! empty( $post ) && ! empty( $hash ) ) {
+			$table_name_scans    = $wpdb->prefix . 'pac_scans';
+			$table_name_products = $wpdb->prefix . 'pac_products';
+			$table_name_results  = $wpdb->prefix . 'pac_results';
+			$scan                = $wpdb->get_row( "SELECT * FROM $table_name_scans WHERE hash = '$hash'" );
+
 			// Get post content and look for links
 			$post_content = apply_filters( 'the_content', $post->post_content );
 
@@ -538,30 +616,54 @@ class Pac_Admin {
 					}
 
 					// Building return
+					$data = array(
+						'asin'   => $asin,
+						'title'  => $title,
+						'url'    => $url,
+						'offers' => $offers,
+					);
 					if ( empty( $offers ) ) {
 						// Not available!
-						$return[] = array(
-							'asin'         => $asin,
-							'title'        => $title,
-							'url'          => $url,
-							'offers'       => $offers,
-							'availability' => __( 'Not available.', 'pac' ),
-						);
+						$data['status'] = PAC_STATUS_NOT_AVAILABLE;
 					} else {
 						// Still saleable
-						$return[] = array(
-							'asin'         => $asin,
-							'title'        => $title,
-							'url'          => $url,
-							'offers'       => $offers,
-							'availability' => __( 'In stock.', 'pac' ),
+						$data['status'] = PAC_STATUS_AVAILABLE;
+					}
+					$return[] = $data;
+
+					// Save results
+					if ( ! empty( $scan ) ) {
+						// Save product
+						$product = $wpdb->insert(
+							$table_name_products,
+							$data,
+							array(
+								'%s', // asin
+								'%s', // title
+								'%s', // url
+								'%s', // offers
+								'%d', // status
+							)
 						);
+						if ( $product ) {
+							// Save result
+							$product_id = $wpdb->insert_id;
+							$wpdb->insert(
+								$table_name_results,
+								array(
+									'scan_id'    => $scan->id,
+									'post_id'    => $post->ID,
+									'product_id' => $product_id,
+								),
+								array(
+									'%d', // scan_id
+									'%d', // post_id
+									'%d', // product_id
+								)
+							);
+						}
 					}
 				}
-			}
-			// Save the timestamp of the scan
-			if ( ! add_post_meta( $post->ID, 'pac_last_scan', date( 'Y-m-d H:i:s' ), true ) ) {
-				update_post_meta( $post->ID, 'pac_last_scan', date( 'Y-m-d H:i:s' ) );
 			}
 		}
 

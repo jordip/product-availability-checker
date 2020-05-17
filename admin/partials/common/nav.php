@@ -3,7 +3,7 @@
 /**
  * Provide tabs for admin area.
  *
- * @link  https://jordiplana.com
+ * @link  https://productavailable.com
  * @since 1.0.0
  *
  * @package    Pac
@@ -11,8 +11,9 @@
  */
 
 $tabs = array(
-	'pac'      => __( 'Settings', 'pac' ),
-	'pac-scan' => __( 'Scan and check', 'pac' ),
+	'pac'        => __( 'Settings', 'pac' ),
+	'pac-scan'   => __( 'Scan', 'pac' ),
+	'pac-report' => __( 'Reports', 'pac' ),
 );
 ?>
 
@@ -20,6 +21,11 @@ $tabs = array(
 	<div class="navbar-brand">
 		<a class="navbar-item" href="#">
 			<img src="<?php echo plugins_url( '../../assets/icon-128x128.png', dirname( __FILE__ ) ); ?>" width="28" height="28">
+		</a>
+		<a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="pac-navbar-menu">
+			<span aria-hidden="true"></span>
+			<span aria-hidden="true"></span>
+			<span aria-hidden="true"></span>
 		</a>
 	</div>
 

@@ -8,7 +8,7 @@
  * @since      1.0.0
  * @package    Pac
  * @subpackage Pac/includes
- * @author     Jordi Plana <hello@jordiplana.com>
+ * @author     ProductAvailable.com <info@productavailable.com>
  */
 class Pac_Deactivator {
 

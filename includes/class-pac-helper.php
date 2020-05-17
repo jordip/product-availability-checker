@@ -8,10 +8,9 @@
  * @since      1.0.0
  * @package    Pac
  * @subpackage Pac/includes
- * @author     Jordi Plana <hello@jordiplana.com>
+ * @author     ProductAvailable.com <info@productavailable.com>
  */
 class Pac_Helper {
-
 
 
 	/**
@@ -30,6 +29,13 @@ class Pac_Helper {
 		return $result;
 	}
 
+	/**
+	 * Gets Amazon ASIN collection from given content.
+	 *
+	 * @param string  $content
+	 * @param boolean $shortlink
+	 * @return void
+	 */
 	public function get_amazon_asin( $content, $shortlink = false ) {
 		$matches         = array();
 		$link_regex      = '/<a.*href=".*amazon\..*?\/([A-Z0-9]{10})/';

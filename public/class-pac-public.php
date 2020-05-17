@@ -3,7 +3,7 @@
 /**
  * The public-facing functionality of the plugin.
  *
- * @link  https://jordiplana.com
+ * @link  https://productavailable.com
  * @since 1.0.0
  *
  * @package    Pac
@@ -18,7 +18,7 @@
  *
  * @package    Pac
  * @subpackage Pac/public
- * @author     Jordi Plana <hello@jordiplana.com>
+ * @author     ProductAvailable.com <info@productavailable.com>
  */
 class Pac_Public {
 
@@ -73,7 +73,7 @@ class Pac_Public {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/pac-public.css', array(), $this->version, 'all' );
+		//wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/pac-public.css', array(), $this->version, 'all' );
 	}
 
 	/**

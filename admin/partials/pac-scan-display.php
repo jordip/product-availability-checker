@@ -5,7 +5,7 @@
  *
  * This file is used to markup the admin-facing aspects of the plugin.
  *
- * @link  https://jordiplana.com
+ * @link  https://productavailable.com
  * @since 1.0.0
  *
  * @package    Pac
@@ -28,6 +28,7 @@
 
 	<?php if ( $api_status ) : ?>
 		<div class="box">
+			<h2><?php _e( 'Scan', 'pac' ); ?></h2>
 			<p>
 				<?php _e( 'Scans all your posts and pages body content, matches Amazon links and checks the product availability.', 'pac' ); ?>
 			</p>
@@ -40,28 +41,31 @@
 			<nav class="level">
 				<div class="level-left">
 					<div class="level-item">
+						<input type="hidden" name="scan_hash" id="scan_hash" />
 						<input type="button" name="scan-start-stop" id="scan-start-stop" class="button button-primary start" value="<?php _e( 'Start scanning', 'pac' ); ?>">
 					</div>
+					<?php if ( ! empty( $last_scan ) ) : ?>
 					<div class="level-item">
-						<p><span class="tag is-info is-light">[<?php _e( 'Last scan: ', 'pac' ); ?> <?php echo $last_scan; ?>]</span></p>
+						<button class="button" id="go-reports"><?php _e( 'View last scan', 'pac' ); ?></button>
 					</div>
+					<?php endif; ?>
 				</div>
 			</nav>
 		</div>
 		<div id="scan-result" class="box">
-			<h3><span id="progress-loader" class="loader loader16"></span> <span id="scan-progress">Scanning</span></h3>
+			<h3><span id="progress-loader" class="loader loader16"></span> <span id="scan-progress"><?php _e( 'Scanning', 'pac' ); ?></span></h3>
 		</div>
 	<?php else : ?>
 		<article class="message is-warning">
 			<div class="message-header">
-				<p class="is-marginless">Warning</p>
+				<p class="is-marginless"><?php _e( 'Warning', 'pac' ); ?></p>
 			</div>
 			<div class="message-body">
 				<p class="is-marginless">
-					<?php _e( "We couldn't fetch  Amazon Product Advertising API results. Check your Settings and try again.", 'pac' ); ?>
+					<?php _e( "We couldn't fetch Amazon Product Advertising API results. Check your Settings and try again.", 'pac' ); ?>
 				</p>
 				<p>
-					<input type="submit" name="submit" id="check-settings" class="button button-primary" value="<?php _e( 'Fix', 'pac' ); ?>">
+					<input type="submit" name="submit" id="go-settings" class="button button-primary" value="<?php _e( 'Fix', 'pac' ); ?>">
 				</p>
 			</div>
 		</article>

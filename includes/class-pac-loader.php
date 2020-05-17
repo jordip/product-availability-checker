@@ -9,7 +9,7 @@
  *
  * @package    Pac
  * @subpackage Pac/includes
- * @author     Jordi Plana <hello@jordiplana.com>
+ * @author     ProductAvailable.com <info@productavailable.com>
  */
 class Pac_Loader {
 
