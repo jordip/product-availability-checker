@@ -140,6 +140,7 @@ class Pac_Paapi {
 				return $getItemsResponse->getItemsResult()->getItems();
 			}
 		} catch ( ApiException $exception ) {
+			// TODO: Catch malformed requests because of invalid ASINS
 		} catch ( Exception $exception ) {
 		}
 		return false;

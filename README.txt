@@ -5,7 +5,7 @@ Tags: amazon, affiliates, product, stock, availability, tracker, scanner, valida
 Requires at least: 3.0.1
 Requires PHP: 5.5
 Tested up to: 5.4.1
-Stable tag: 1.4.0
+Stable tag: 1.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,8 +82,14 @@ Feedback is always welcome, please start a thread in the Wordpress.org [plugin s
 
 == Changelog ==
 
+= 1.4.2 =
+
+- Bug fixes for shortlink compatibility.
+
 = 1.4.0 =
 
+- Bug fixes.
+- Improved scanner accuracy.
 - Shortcuts in plugins page.
 
 = 1.3.1 =

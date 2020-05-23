@@ -39,7 +39,7 @@ class Pac_Helper {
 	public function get_amazon_asin( $content, $shortlink = false ) {
 		$matches         = array();
 		$link_regex      = '/<a [^>]*\bhref\s*=\s*"[^"]*amazon\..*?([A-Z0-9]{10})/';
-		$shortlink_regex = '/<a [^>]*\bhref\s*=\s*"[^"]*amzn\.(?:to|com).*?([A-Z0-9]{10})/';
+		$shortlink_regex = '/<a [^>]*\bhref\s*=\s*"(.*amzn\.(?:to|com).*?)"/';
 		if ( ! $shortlink ) {
 			preg_match_all( $link_regex, $content, $matches, PREG_SET_ORDER );
 		} else {
