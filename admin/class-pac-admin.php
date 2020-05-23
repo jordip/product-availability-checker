@@ -71,15 +71,6 @@ class Pac_Admin {
 	}
 
 	/**
-	 * Register the filters for the admin area.
-	 *
-	 * @since 1.0.0
-	 */
-	public function admin_add_filters() {
-		add_filter( 'plugin_action_links_' . PAC_PLUGIN_BASE_NAME . '/pac.php', array( $this, 'plugin_settings_link' ) );
-	}
-
-	/**
 	 * Register the stylesheets for the admin area.
 	 *
 	 * @since 1.2.0
@@ -129,11 +120,27 @@ class Pac_Admin {
 	 * @param mixed $links
 	 * @return void
 	 */
-	public function plugin_settings_link( $links ) {
+	public function settings_link( $links ) {
 		$url           = get_admin_url() . 'admin.php?page=pac';
 		$settings_link = '<a href="' . $url . '">' . __( 'Settings', 'pac' ) . '</a>';
 		array_unshift( $links, $settings_link );
 		return $links;
+	}
+
+	public function add_plugin_meta_links( $meta_fields, $file ) {
+		if ( PAC_PLUGIN_BASE_NAME . '/pac.php' == $file ) {
+			$plugin_url    = 'https://wordpress.org/support/plugin/product-availability-checker/reviews/?rate=5#new-post';
+			$meta_fields[] = "<a href='" . esc_url( $plugin_url ) . "' target='_blank' title='" . esc_html__( 'Rate', 'pac' ) . "'>
+            <i class='ampforwp-rate-stars'>"
+				. "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+				. "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+				. "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+				. "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+				. "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+				. '</i></a>';
+		}
+
+		return $meta_fields;
 	}
 
 	/**

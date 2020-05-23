@@ -150,7 +150,8 @@ class Pac {
 	private function define_admin_filters() {
 		$plugin_admin = new Pac_Admin( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_filter( 'after_setup_theme', $plugin_admin, 'admin_add_filters' );
+		$this->loader->add_filter( 'plugin_action_links_' . PAC_PLUGIN_BASE_NAME . '/pac.php', $plugin_admin, 'settings_link' );
+		$this->loader->add_filter( 'plugin_row_meta', $plugin_admin, 'add_plugin_meta_links', 10, 2 );
 	}
 
 	/**

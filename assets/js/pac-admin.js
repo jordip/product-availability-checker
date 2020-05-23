@@ -33,7 +33,7 @@
 						.val( "Scan completed" )
 						.off();
 						$( "#scan-progress" ).html(
-							'<span class="dashicons dashicons-yes"></span>  Scan completed'
+							'<span class="dashicons dashicons-yes"></span> Scan completed'
 						);
 						$( "#scan-result" ).append(
 							'<p style="color:green;"><span class="dashicons dashicons-yes"></span> Process completed!</p>'

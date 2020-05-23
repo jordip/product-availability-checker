@@ -15,9 +15,9 @@
  * @wordpress-plugin
  * Plugin Name:       Amazon Product Availability Tracker
  * Description:       Scans your Amazon Affiliate site for links to products that are out of stock, or no longer available.
- * Version:           1.3.0
+ * Version:           1.4.0
  * Author:            ProductAvailable.com
- * Author URI:        https://productavailable.com
+ * Author URI:        https://www.productavailable.com
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       pac
@@ -34,7 +34,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'PAC_VERSION', '1.3.0' );
+define( 'PAC_VERSION', '1.4.0' );
 
 /**
  * Plugin name to be used.

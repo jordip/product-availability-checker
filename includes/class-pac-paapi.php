@@ -90,17 +90,16 @@ class Pac_Paapi {
 		if ( empty( $api ) ) {
 			// Load API config from DB
 			$api = $this->load_amazon_api_config();
-
-			// Configure
-			$this->config = new Configuration();
-			$this->config->setAccessKey( $api['api_key'] );
-			$this->config->setSecretKey( $api['api_secret'] );
-			$this->associate_tag = $api['associate_tag'];
-			$this->config->setHost( 'webservices.amazon.' . $api['country'] );
-			$this->config->setRegion( $this->get_amazon_api_region( $api['country'] ) );
-
-			$this->instance = new DefaultApi( new GuzzleHttp\Client(), $this->config );
 		}
+		// Configure
+		$this->config = new Configuration();
+		$this->config->setAccessKey( $api['api_key'] );
+		$this->config->setSecretKey( $api['api_secret'] );
+		$this->associate_tag = $api['associate_tag'];
+		$this->config->setHost( 'webservices.amazon.' . $api['country'] );
+		$this->config->setRegion( $this->get_amazon_api_region( $api['country'] ) );
+
+		$this->instance = new DefaultApi( new GuzzleHttp\Client(), $this->config );
 	}
 
 	/**
