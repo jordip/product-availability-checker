@@ -5,7 +5,7 @@ Tags: amazon, affiliates, product, stock, availability, tracker, scanner, valida
 Requires at least: 3.0.1
 Requires PHP: 5.5
 Tested up to: 5.4.1
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,12 +46,14 @@ Cover photo by [Brooke Lark](https://unsplash.com/@brookelark?utm_source=unsplas
 
 = How do I get credentials for the Amazon Product Advertising API? =
 
-1. Register as an Amazon affiliate https://affiliate-program.amazon.com
-1. Create Amazon Product Advertising API credentials https://affiliate-program.amazon.com/gp/flex/advertising/api/sign-in.html
+1. Register as an Amazon affiliate [https://affiliate-program.amazon.com](https://affiliate-program.amazon.com)
+1. Create Amazon Product Advertising API credentials [https://affiliate-program.amazon.com/gp/flex/advertising/api/sign-in.html](https://affiliate-program.amazon.com/gp/flex/advertising/api/sign-in.html)
+
+Official documentation: [https://webservices.amazon.com/paapi5/documentation/register-for-pa-api.html](https://webservices.amazon.com/paapi5/documentation/register-for-pa-api.html)
 
 = Does the plugin work with cloaked links? =
 
-On the current version the plugin only works with links containing the amazon domains and the product ASIN . If you don't know how to find a product ASIN please check the following link: https://www.oreilly.com/library/view/amazon-hacks/0596005423/ch01s03.html
+On the current version the plugin only works with links containing the amazon domains and the product ASIN . If you don't know how to find a product ASIN please check the following link: [https://www.oreilly.com/library/view/amazon-hacks/0596005423/ch01s03.html](https://www.oreilly.com/library/view/amazon-hacks/0596005423/ch01s03.html)
 
 = The scanner is showing products out of stock but when I follow the link to Amazon I see they are available. What's going on? =
 
@@ -81,6 +83,11 @@ Feedback is always welcome, please start a thread in the Wordpress.org [plugin s
 
 
 == Changelog ==
+
+= 1.4.3 =
+
+- Bug fixes on the reports page.
+- Compatibility with GeniusLink, Amazon Link Engine, EasyAzon, AzonPress, AAWP, Amazon Link and AmazonSimpleAdmin.
 
 = 1.4.2 =
 

@@ -230,56 +230,53 @@ class Pac_Admin {
 
 		$output = array();
 
-		// Do we have valid API settings?
-		$api_status = $this->verify_api_credentials();
+		$table_name_scans    = $wpdb->prefix . 'pac_scans';
+		$table_name_results  = $wpdb->prefix . 'pac_results';
+		$table_name_products = $wpdb->prefix . 'pac_products';
 
-		if ( $api_status ) {
-			$table_name_scans    = $wpdb->prefix . 'pac_scans';
-			$table_name_results  = $wpdb->prefix . 'pac_results';
-			$table_name_products = $wpdb->prefix . 'pac_products';
+		// Get last scan
+		$scan = $wpdb->get_row( "SELECT * FROM $table_name_scans ORDER BY id DESC" );
+		if ( $scan ) {
+			$output['scan_time'] = $scan->time;
+			$results             = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT
+						r.post_id, p.*
+					FROM
+						$table_name_products p,
+						$table_name_results r
+					WHERE
+						r.product_id = p.id AND
+						r.scan_id = %d",
+					$scan->id
+				)
+			);
 
-			// Get last scan
-			$scan = $wpdb->get_row( "SELECT * FROM $table_name_scans ORDER BY id DESC" );
-			if ( $scan ) {
-				$output['scan_time'] = $scan->time;
-				$results             = $wpdb->get_results(
-					$wpdb->prepare(
-						'SELECT
-							r.post_id, p.*
-						FROM
-							vir_pac_products p,
-							vir_pac_results r
-						WHERE
-							r.product_id = p.id AND
-							r.scan_id = %d',
-						$scan->id
-					)
-				);
-
-				$post = array();
-				foreach ( $results as $i => $result ) {
-					// Get post info
-					if ( $i == 0 || $result->post_id != $post->ID ) {
-						$post                         = get_post( $result->post_id );
-						$output['posts'][ $post->ID ] = array(
-							'post_id'   => $post->ID,
-							'title'     => $post->post_title,
-							// 'base_url' => get_site_url(),
-							'url'       => get_permalink( $post ),
-							'scan_time' => $result->time,
-						);
-					}
-
-					// Prepare output
-					$output['posts'][ $post->ID ]['products'][] = array(
-						'asin'   => $result->asin,
-						'title'  => $result->title,
-						'url'    => $result->url,
-						'status' => $result->status,
+			$post = array();
+			foreach ( $results as $i => $result ) {
+				// Get post info
+				if ( $i == 0 || $result->post_id != $post->ID ) {
+					$post                         = get_post( $result->post_id );
+					$output['posts'][ $post->ID ] = array(
+						'post_id'   => $post->ID,
+						'title'     => $post->post_title,
+						// 'base_url' => get_site_url(),
+						'url'       => get_permalink( $post ),
+						'scan_time' => $result->time,
 					);
 				}
+
+				// Prepare output
+				$output['posts'][ $post->ID ]['products'][] = array(
+					'asin'   => $result->asin,
+					'title'  => $result->title,
+					'url'    => $result->url,
+					'status' => $result->status,
+				);
 			}
 		}
+
+		$page = $this->plugin_name . '-report';
 
 		// Template
 		include_once 'partials/pac-report-display.php';
@@ -483,7 +480,7 @@ class Pac_Admin {
 			// Check if we are updating a current scan, or creating a new one.
 			$table_name_scans = $wpdb->prefix . 'pac_scans';
 			$scan             = $wpdb->get_row( "SELECT * FROM $table_name_scans WHERE hash = $hash" );
-			if ( empty( $scan ) ) {
+			if ( empty( $scan ) && $content_type == 'post' ) {
 				// New scan
 				$scan    = $wpdb->insert( $table_name_scans, array( 'hash' => $hash ) );
 				$scan_id = $wpdb->insert_id;

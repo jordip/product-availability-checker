@@ -26,10 +26,9 @@
 		<?php endforeach; ?>
 	<?php endif; ?>
 
-	<?php if ( $api_status ) : ?>
 		<div class="box">
 			<h2><?php _e( 'Report', 'pac' ); ?></h2>
-			<?php if ( $output ) : ?>
+			<?php if ( $output && ! empty( $output['posts'] ) ) : ?>
 
 				<span class="tag is-info is-light is-medium">[<?php _e( 'Last scan: ', 'pac' ); ?> <?php echo $output['scan_time']; ?>]</span>
 				<?php foreach ( $output['posts'] as $post_id => $post_info ) : ?>
@@ -65,19 +64,5 @@
 			<?php endif; ?>
 
 		</div>
-	<?php else : ?>
-		<article class="message is-warning">
-			<div class="message-header">
-				<p class="is-marginless"><?php _e( 'Warning', 'pac' ); ?></p>
-			</div>
-			<div class="message-body">
-				<p class="is-marginless">
-					<?php _e( "We couldn't fetch  Amazon Product Advertising API results. Check your Settings and try again.", 'pac' ); ?>
-				</p>
-				<p>
-					<input type="submit" name="submit" id="go-settings" class="button button-primary" value="<?php _e( 'Fix', 'pac' ); ?>">
-				</p>
-			</div>
-		</article>
-	<?php endif; ?>
+
 </div>
