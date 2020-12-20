@@ -3,10 +3,7 @@
 /**
  * The plugin bootstrap file
  *
- * This file is read by WordPress to generate the plugin information in the plugin
- * admin area. This file also includes all of the dependencies used by the plugin,
- * registers the activation and deactivation functions, and defines a function
- * that starts the plugin.
+ * Main class for the Product Availability Tracker Plugin.
  *
  * @link    https://productavailable.com
  * @since   1.0.0
@@ -15,7 +12,7 @@
  * @wordpress-plugin
  * Plugin Name:       Amazon Product Availability Tracker
  * Description:       Scans your Amazon Affiliate site for links to products that are out of stock, or no longer available.
- * Version:           1.4.3
+ * Version:           1.4.4
  * Author:            ProductAvailable.com
  * Author URI:        https://www.productavailable.com
  * License:           GPL-2.0+
@@ -34,7 +31,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'PAC_VERSION', '1.4.3' );
+define( 'PAC_VERSION', '1.4.4' );
 
 /**
  * Plugin name to be used.

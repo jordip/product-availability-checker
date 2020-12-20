@@ -1,17 +1,21 @@
 === Amazon Affiliate Product Availability Tracker ===
-Contributors: productavailable
+Contributors: productavailable, jordiplana
 Donate link: https://www.productavailable.com
 Tags: amazon, affiliates, product, stock, availability, tracker, scanner, validator
 Requires at least: 3.0.1
 Requires PHP: 5.5
-Tested up to: 5.4.1
-Stable tag: 1.4.3
+Tested up to: 5.6
+Stable tag: 1.4.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Scans your Amazon Affiliate site for links to products that are out of stock, or no longer available.
 
 == Description ==
+
+#### Maintainers wanted!
+
+If you want to keep developing features for this plugin get in touch using the forum!
 
 ### The #1 Amazon Affiliate Product Availability Tracker plugin
 
@@ -84,10 +88,16 @@ Feedback is always welcome, please start a thread in the Wordpress.org [plugin s
 
 == Changelog ==
 
+= 1.4.4 =
+
+- Compatibility with Wordpress 5.6
+- Enhanced UX experience.
+- Bug fixes.
+
 = 1.4.3 =
 
 - Bug fixes on the reports page.
-- Compatibility with GeniusLink, Amazon Link Engine, EasyAzon, AzonPress, AAWP, Amazon Link and AmazonSimpleAdmin.
+- Compatibility with GeniusLink, Amazon Link Engine, EasyAzon, AzonPress, AAWP, Amazon Auto Links and AmazonSimpleAdmin.
 
 = 1.4.2 =
 

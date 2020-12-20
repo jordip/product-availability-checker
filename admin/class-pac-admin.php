@@ -479,7 +479,8 @@ class Pac_Admin {
 		if ( in_array( $content_type, $allowed_content_types ) ) {
 			// Check if we are updating a current scan, or creating a new one.
 			$table_name_scans = $wpdb->prefix . 'pac_scans';
-			$scan             = $wpdb->get_row( "SELECT * FROM $table_name_scans WHERE hash = $hash" );
+			$sql              = $wpdb->prepare( "SELECT * FROM $table_name_scans WHERE `hash` = %s", $hash);
+			$scan             = $wpdb->get_row( $sql );
 			if ( empty( $scan ) && $content_type == 'post' ) {
 				// New scan
 				$scan    = $wpdb->insert( $table_name_scans, array( 'hash' => $hash ) );
@@ -529,7 +530,8 @@ class Pac_Admin {
 			$table_name_scans    = $wpdb->prefix . 'pac_scans';
 			$table_name_products = $wpdb->prefix . 'pac_products';
 			$table_name_results  = $wpdb->prefix . 'pac_results';
-			$scan                = $wpdb->get_row( "SELECT * FROM $table_name_scans WHERE hash = '$hash'" );
+			$sql                 = $wpdb->prepare( "SELECT * FROM $table_name_scans WHERE `hash` = '%s'", $hash );
+			$scan                = $wpdb->get_row( $sql );
 
 			// Get post content and look for links
 			$post_content = apply_filters( 'the_content', $post->post_content );
