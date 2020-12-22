@@ -18,7 +18,7 @@
 
 ## Maintainers wanted!
 
-If you want to keep developing features for this plugin get in touch using the forum!
+If you want to keep developing features for this plugin get in touch using the [forum](https://wordpress.org/support/plugin/product-availability-checker/)!
 
 ## Description
 
