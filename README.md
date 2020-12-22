@@ -14,7 +14,17 @@
 
 >      
 
-### 🏠 [Homepage](This simple plugin will scan your website for affiliate links pointing to Amazon, extract the ASIN and check it against the Amazon API to determine if it is still in stock, and can be purchased.)
+### 🏠 [Homepage](https://wordpress.org/plugins/product-availability-checker/)
+
+## Maintainers wanted!
+
+If you want to keep developing features for this plugin get in touch using the forum!
+
+## Description
+
+Keep your Amazon affiliate website healthy and maximize revenue. Don’t leave behind old Amazon links pointing to out of stock or unavailable products.
+
+This simple plugin will scan your website for affiliate links pointing to Amazon, extract the ASIN and check it against the Amazon API to determine if it is still in stock, and can be purchased.
 
 ## Install
 
