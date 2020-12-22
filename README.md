@@ -4,7 +4,7 @@
   <a href="https://github.com/jordip/product-availability-checker#readme" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
   </a>
-  <a href="https://github.com/ahmadawais/jordip/product-availability-checker/commit-activity" target="_blank">
+  <a href="https://github.com/jordip/product-availability-checker/graph/commit-activity" target="_blank">
     <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" />
   </a>
   <a href="https://github.com/jordip/product-availability-checker/blob/master/LICENSE" target="_blank">
