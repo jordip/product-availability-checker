@@ -32,7 +32,7 @@
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](hhttps://wordpress.org/support/plugin/product-availability-checker/).
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://wordpress.org/support/plugin/product-availability-checker/).
 
 ## Show your support
 
