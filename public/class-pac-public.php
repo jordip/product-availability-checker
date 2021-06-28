@@ -3,7 +3,7 @@
 /**
  * The public-facing functionality of the plugin.
  *
- * @link  https://productavailable.com
+ * @link  https://jordiplana.com
  * @since 1.0.0
  *
  * @package    Pac
@@ -18,7 +18,7 @@
  *
  * @package    Pac
  * @subpackage Pac/public
- * @author     ProductAvailable.com <info@productavailable.com>
+ * @author     Jordi Plana <info@jordiplana.com>
  */
 class Pac_Public {
 

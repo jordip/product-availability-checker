@@ -8,7 +8,7 @@
  *
  * @package    Pac
  * @subpackage Pac/admin
- * @author     ProductAvailable.com <info@productavailable.com>
+ * @author     Jordi Plana <info@jordiplana.com>
  */
 class Pac_Admin {
 

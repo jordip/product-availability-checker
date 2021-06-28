@@ -5,7 +5,7 @@
  *
  * Main class for the Product Availability Tracker Plugin.
  *
- * @link    https://productavailable.com
+ * @link    https://jordiplana.com
  * @since   1.0.0
  * @package Pac
  *
@@ -13,8 +13,8 @@
  * Plugin Name:       Amazon Product Availability Tracker
  * Description:       Scans your Amazon Affiliate site for links to products that are out of stock, or no longer available.
  * Version:           1.4.4
- * Author:            ProductAvailable.com
- * Author URI:        https://www.productavailable.com
+ * Author:            Jordi Plana
+ * Author URI:        https://jordiplana.com
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       pac

@@ -1,6 +1,6 @@
 === Amazon Affiliate Product Availability Tracker ===
-Contributors: productavailable, jordiplana
-Donate link: https://www.productavailable.com
+Contributors: jordiplana
+Donate link: https://jordiplana.com
 Tags: amazon, affiliates, product, stock, availability, tracker, scanner, validator
 Requires at least: 3.0.1
 Requires PHP: 5.5
@@ -115,7 +115,6 @@ Feedback is always welcome, please start a thread in the Wordpress.org [plugin s
 
 = 1.3.0 =
 
-- New [official website](https://wwww.productavailable.com)
 - Scan reports.
 - Bug fixes.
 - FAQs update.

@@ -5,7 +5,7 @@
  *
  * This file is used to markup the admin-facing aspects of the plugin.
  *
- * @link  https://productavailable.com
+ * @link  https://jordiplana.com
  * @since 1.0.0
  *
  * @package    Pac

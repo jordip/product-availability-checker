@@ -9,7 +9,7 @@
  * @since      1.0.0
  * @package    Pac
  * @subpackage Pac/includes
- * @author     ProductAvailable.com <info@productavailable.com>
+ * @author     Jordi Plana <info@jordiplana.com>
  */
 class Pac_i18n {
 

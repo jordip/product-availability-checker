@@ -3,7 +3,7 @@
 /**
  * Provide tabs for admin area.
  *
- * @link  https://productavailable.com
+ * @link  https://jordiplana.com
  * @since 1.0.0
  *
  * @package    Pac
@@ -48,14 +48,6 @@ $tabs = array(
 				<div class="navbar-dropdown is-right">
 					<a class="navbar-item" target="_blank" href="https://wordpress.org/support/plugin/product-availability-checker/">
 						Report an issue
-					</a>
-					<hr class="navbar-divider">
-					<a class="navbar-item" target="_blank" href="https://www.productavailable.com/amazon-associates-product-link-scanner/?utm_source=plugin&utm_medium=referral&utm_campaign=scanner">
-						Online Scanner
-					</a>
-					<hr class="navbar-divider">
-					<a class="navbar-item" target="_blank" href="https://www.productavailable.com/?utm_source=plugin&utm_medium=referral&utm_campaign=homepage">
-						About
 					</a>
 				</div>
 			</div>
