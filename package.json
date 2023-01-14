@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/ahmadawais/WPSass#readme",
   "devDependencies": {
-    "node-sass": "^7.0.0",
+    "node-sass": "^7.0.3",
     "nodemon": "^1.11.0"
   },
   "dependencies": {
